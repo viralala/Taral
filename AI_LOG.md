@@ -84,6 +84,6 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ## Open items
 
-- [x] Problem statement chosen (provisional, pending the PDF brief)
-- [ ] Read the PDF brief and confirm the must-haves
-- [ ] First build step (CAPTCHA: puzzle generation and verification)
+- [x] Problem statement chosen
+- [x] Read the PDF brief and confirm the must-haves
+- [ ] First build step (CAPTCHA: at least 3 challenge types, pass/fail, restart)

@@ -12,7 +12,10 @@ Read this at the start of every new chat. These are the standing settings for th
 - Chosen: 01 Reimagine CAPTCHA ("Prove you're human. Make it fun.").
 - Runner-up: 02 Puzzle Passwords ("Your password must contain a riddle.").
 - Why CAPTCHA: the most demoable and interactive of the four. It gives room for AI-generated puzzles per visitor, and it suits a judge-facing live demo.
-- Open: confirm against the PDF brief before building. If the brief's must-haves rule it out, switch to the runner-up.
+- Brief: `D:\Study SY\Taral\pixathon-problem-statements.pdf` (local only, not pushed). Confirmed against it.
+- Mission: a playable, CAPTCHA-style challenge a human clears in under 30 seconds, that they enjoy, and that plays with what makes us human. No real security. It is a game about the idea of a CAPTCHA.
+- Must-haves: clear pass/fail feedback; each challenge under 30 s; runs in the browser; restart without reloading; at least 3 challenge types or a random generator.
+- Status: confirmed as the build target. Runner-up Puzzle Passwords is no longer needed.
 
 ## Repo
 - Name: Taral

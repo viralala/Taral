@@ -132,6 +132,28 @@ export default function Quest() {
     setPhase((p) => (p.k === "play" ? { k: "clue", n: p.n } : p));
   }, []);
 
+  // Secret skip: Shift+S during any trial (or the faint "skip" button) clears it with a zero score.
+  const skipTrial = useCallback(() => {
+    setPhase((p) => {
+      if (p.k !== "play") return p;
+      setResults((prev) => ({ ...prev, [p.n]: { level: p.n, passed: 0, total: 0, humanity: 0, timeMs: 0, cleared: true } }));
+      return { k: "clue", n: p.n };
+    });
+  }, []);
+  const playing = phase.k === "play";
+  useEffect(() => {
+    if (!playing) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.toLowerCase() === "s") {
+        if ((e.target as Element | null)?.closest?.("input, textarea, [contenteditable='true']")) return;
+        e.preventDefault();
+        skipTrial();
+      }
+    };
+    addEventListener("keydown", onKey);
+    return () => removeEventListener("keydown", onKey);
+  }, [playing, skipTrial]);
+
   const afterClue = (n: Lvl) => setPhase(n < 3 ? { k: "chapter", n: (n + 1) as Lvl } : { k: "ending", i: 0 });
 
   const playAgain = () => {
@@ -193,6 +215,9 @@ export default function Quest() {
               <TrialSlot n={phase.n} onComplete={onLevel} />
             </motion.div>
           </div>
+          <button type="button" onClick={skipTrial} aria-label="Skip this trial" className="hand fixed bottom-3 left-3 z-40 rounded-full px-3 py-1 text-[10px] text-paper/20 transition hover:text-paper focus-visible:text-paper">
+            skip
+          </button>
         </>
       )}
 

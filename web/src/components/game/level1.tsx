@@ -107,81 +107,6 @@ function Moon({ finish, say }: CProps) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* 2. Squares that hide a clue (traffic-light trap)                      */
-/* ------------------------------------------------------------------ */
-const CLUES = [
-  { e: "🌸", t: "A crushed blossom" },
-  { e: "👣", t: "Fresh footprints" },
-  { e: "📜", t: "A torn note" },
-  { e: "🧵", t: "Cloak thread" },
-  { e: "🖋️", t: "An ink stain" },
-  { e: "🕯️", t: "Melted candle wax" },
-  { e: "🎀", t: "A dropped ribbon" },
-];
-const DECOYS = [
-  { e: "🚦", t: "A traffic light" },
-  { e: "🚌", t: "A bus" },
-  { e: "🚲", t: "A bicycle" },
-  { e: "🚸", t: "A crosswalk" },
-  { e: "🧯", t: "A fire hydrant" },
-  { e: "🏍️", t: "A motorcycle" },
-];
-function Clues({ finish }: CProps) {
-  const items = useMemo(() => {
-    const decoys = [DECOYS[0], ...shuffle(DECOYS.slice(1)).slice(0, 3)];
-    return shuffle([...shuffle(CLUES).slice(0, 5).map((c) => ({ ...c, f: true })), ...decoys.map((d) => ({ ...d, f: false }))]);
-  }, []);
-  const [sel, setSel] = useState<Set<string>>(new Set());
-  const toggle = (t: string) => {
-    sfx("click");
-    setSel((s) => {
-      const n = new Set(s);
-      if (n.has(t)) n.delete(t);
-      else n.add(t);
-      return n;
-    });
-  };
-  const submit = () => {
-    const good = items.filter((i) => i.f && sel.has(i.t)).length;
-    const bad = items.filter((i) => !i.f && sel.has(i.t));
-    const score = Math.max(0.1, (good - bad.length * 0.6) / 5);
-    const note = `${good}/5 clues`;
-    if (bad.some((b) => b.t === "A traffic light"))
-      return finish({ pass: false, score: Math.min(score, 0.4), mood: "crying", note, quip: "A traffic light. In a forest. CAPTCHAs trained you well." });
-    if (good >= 4 && bad.length === 0)
-      finish({ pass: true, score: Math.min(1, 0.75 + good * 0.05), mood: "proud", note, quip: "Footprints, ink, petals. Un-be-leaf-able detective work." });
-    else if (bad.length > 0)
-      finish({ pass: false, score: Math.min(score, 0.45), mood: "smug", note, quip: `A ${bad[0].t.replace(/^An? /, "").toLowerCase()}? In a forest? Barking up the wrong tree.` });
-    else finish({ pass: false, score: Math.min(score, 0.45), mood: "smug", note, quip: `Only ${good} of 5. Your beloved's out there. Don't skim.` });
-  };
-  return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="grid w-full max-w-md grid-cols-3 gap-2 sm:gap-3">
-        {items.map((i) => {
-          const on = sel.has(i.t);
-          return (
-            <motion.button
-              type="button"
-              key={i.t}
-              whileTap={{ scale: 0.93 }}
-              onClick={() => toggle(i.t)}
-              data-cursor="pick"
-              aria-pressed={on}
-              aria-label={i.t}
-              title={i.t}
-              className={`${tile} relative grid aspect-square place-items-center ${on ? "-rotate-2 !bg-lime" : ""}`}
-            >
-              <span className="text-4xl sm:text-5xl" aria-hidden>{i.e}</span>
-              {on && <span className="absolute right-1.5 top-1 text-base text-leaf" aria-hidden>✓</span>}
-            </motion.button>
-          );
-        })}
-      </div>
-      <button type="button" className="btn-paint" onClick={submit} data-cursor="verify" disabled={sel.size === 0}>Verify</button>
-    </div>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 /* 3. Catch the firefly checkbox (runaway checkbox)                      */
@@ -542,11 +467,10 @@ function Blink({ finish, say }: CProps) {
 }
 
 export const LEVEL1: Def[] = [
-  { id: "clues", title: "Squares with secrets", prompt: "Tap every square hiding a clue.", intro: "Clues only. I'm judging. I'm always judging.", limit: 25, Comp: Clues },
-  { id: "moon", title: "Draw the moon", prompt: "Draw a full moon. Freehand.", intro: "Robots draw circles. Humans draw feelings.", limit: 25, Comp: Moon },
-  { id: "firefly", title: "Catch the firefly", prompt: "Tick the box. It flees.", intro: "Just tick the box. How hard can it be?", limit: 30, Comp: Firefly },
-  { id: "breath", title: "Hold your breath", prompt: "Hold for exactly 3 seconds.", intro: "Three seconds. No phones. The owl reports to me.", limit: 20, Comp: OwlHold },
-  { id: "odd", title: "Spot the odd one", prompt: "One is different. Find it.", intro: "Spot the imposter. It's not me. Probably.", limit: 25, Comp: OddOne },
-  { id: "pattern", title: "The pattern path", prompt: "Which stone comes next?", intro: "Humans love patterns. You order the same snack, right?", limit: 20, Comp: Pattern },
-  { id: "blink", title: "Blink back", prompt: "Tap when every eye is shut.", intro: "The forest is watching. Wait for it to blink.", limit: 20, Comp: Blink },
+  { id: "moon", title: "Draw the moon", prompt: "Draw a full moon. Freehand.", intro: "Robots draw circles. Humans draw feelings.", limit: 15, Comp: Moon },
+  { id: "firefly", title: "Catch the firefly", prompt: "Tick the box. It flees.", intro: "Just tick the box. How hard can it be?", limit: 15, Comp: Firefly },
+  { id: "breath", title: "Hold your breath", prompt: "Hold for exactly 3 seconds.", intro: "Three seconds. No phones. The owl reports to me.", limit: 15, Comp: OwlHold },
+  { id: "odd", title: "Spot the odd one", prompt: "One is different. Find it.", intro: "Spot the imposter. It's not me. Probably.", limit: 15, Comp: OddOne },
+  { id: "pattern", title: "The pattern path", prompt: "Which stone comes next?", intro: "Humans love patterns. You order the same snack, right?", limit: 15, Comp: Pattern },
+  { id: "blink", title: "Blink back", prompt: "Tap when every eye is shut.", intro: "The forest is watching. Wait for it to blink.", limit: 15, Comp: Blink },
 ];

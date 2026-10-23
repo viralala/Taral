@@ -1,104 +1,104 @@
 # AI_LOG
 
-A running record of the prompts, tools and decisions behind the Taral project.
+The prompts, tools and decisions behind **Taral: The Three Trials**, in the order we made them. Each entry has the prompt we typed (lightly trimmed for length), what the AI did with it, and what we took away. Where a result was only partly good, we say so.
+
+**Tools at a glance**
+
+| Tool | Used for |
+| --- | --- |
+| Claude Code, Opus 5.5 | Planning the story, design system and build plan; leading the redesign; reviewing |
+| Claude Code, Sonnet 5.5 (3 parallel agents) | First build of the landing, the CAPTCHA game and the fun shell |
+| Claude Code, Haiku 5.5 | Repo setup and light housekeeping |
+| ElevenLabs connector | Voicing the 14 narration lines |
+| Supabase MCP | Creating the `runs` table and its security policies |
+| Vercel | Hosting, auto-deploy from `main` |
+| Reference sites | 2019.makemepulse.com and kaizen.makemepulse.com for motion and look |
 
 ---
 
-## 01. Set up the project
+## 01. Set up the repo and the ground rules
 
-**Tool:** Claude Code (Claude Haiku 5.5)
+**Tool:** Claude Code (Haiku 5.5)
 
 **Prompt:**
-> Make a repo named Taral, public, kept empty for now. Give Tana-38 collaborator access and link it to Vercel. We are in a puzzle building hackathon judged on prompts and vibe coding, so we need to showcase the repo and AI_LOG.md.
+> Make a repo called Taral, public, and keep it empty for now. Add Tana-38 as a collaborator and link it to Vercel. It's a puzzle hackathon judged on prompts and vibe coding, so the repo and AI_LOG.md are what we'll be showing. Use cool AI tools where they help, and ask me before you set up any connector.
 
-> Use cool AI tools for the hackathon. If you need a connector, ask me. Keep a clean AI_LOG.md with 5 to 6 polished prompts, and refine them each time so the log reads well.
+**What happened:** The repo, the collaborator invite and the Vercel link were done in one go. We also wrote a short standing context file with the event rules, so that every new chat started from the same page.
 
-**What happened:** Created the empty public repo, added the collaborator and started the Vercel link. The project context went into a standing `context.md` so every new chat starts with the same rules, including this one: AI_LOG.md holds a small, curated set of entries, revised as the project moves.
-
-**Takeaway:** Put the rules in a file the agent reads first. Consistency across sessions beats re-explaining, and a log only helps judges if it is curated, not a raw dump.
+**What we learned:** Rules written in a file beat rules repeated in chat. Every later session stayed consistent because of it.
 
 ---
 
-## 02. Choose the problem statement
+## 02. Pick the problem statement
 
-**Tool:** Claude Code (Claude Haiku 5.5), with a screenshot of the four problem cards
+**Tool:** Claude Code (Haiku 5.5), with a photo of the four problem cards
 
 **Prompt:**
-> Here are the four problem statements. Choose the best one and make it unimaginably fun, advanced and polished.
+> These are the four problem statements. Which one is best for us? Whatever we pick, I want it to be properly fun and polished, not a quick demo.
 
-**What happened:** Chose 01, Reimagine CAPTCHA. It is the most interactive of the four and the easiest to demo live. Puzzle Passwords is the runner-up. The PDF brief has not been read yet, so the choice is provisional.
+**What happened:** It picked **01, Reimagine CAPTCHA** and gave its reasoning: it is the easiest to play in front of a judge, and it has the most room for surprise. Puzzle Passwords was the runner-up. We then read the PDF brief ourselves and confirmed the must-haves: clear pass or fail, under 30 seconds per challenge, runs in the browser, restart without reloading, and at least three challenge types.
 
-**Takeaway:** A strong pick comes from the demo test: can a judge play with it in 30 seconds? Check the brief before committing.
+**What we learned:** We tested the idea with one question, "can a judge play this in 30 seconds?", and then checked it against the brief before building anything. Puzzle Passwords stayed useful as inspiration for the riddle and password ideas we prototyped for the bridge.
 
 ---
 
 ## 03. Plan with Opus, build with a Sonnet squad
 
-**Tool:** Claude Code (Opus 5.5 planner → 3 parallel Sonnet 5.5 agents), Supabase MCP
+**Tool:** Claude Code (Opus 5.5 as planner, then 3 parallel Sonnet 5.5 agents), Supabase MCP
 
 **Prompt:**
-> Make a storytelling game with 3 levels, one per problem statement, for Open Innovation. Frontend like 2019.makemepulse.com (parallax, 3D, interactive) in a groovy pastel flower style. Fun: rick-roll QR, light ragebait, mogging, puns, then something deep, then motivation. I own the CAPTCHA level and the frontend; my partner builds levels 2 and 3. Next.js + Supabase. Plan with Opus, implement with Sonnet, fan out agents, make it fast.
+> Let's make a storytelling game with three levels, one for each problem statement, for Open Innovation. I want the frontend to feel like 2019.makemepulse.com: parallax, 3D, interactive, in a groovy pastel flower style. Mix in some fun: a rick-roll QR, a bit of ragebait, puns, then something deep, then something motivating. I'm doing the CAPTCHA level and the frontend, and my partner is doing levels 2 and 3. Use Next.js and Supabase. Plan with Opus, build with Sonnet, run agents in parallel and make it quick.
 
-**What happened:** Opus wrote the story (a burnt-out bot, CAPT. CHA, guards three gates), the design tokens, a shared cursor and smooth-scroll layer, the Supabase `runs` table with RLS, and `web/PLAN.md` with strict file ownership per agent. Three Sonnet agents then built the WebGL landing, the CAPTCHA game (6 challenge types, random 4 per run) and the fun shell (rick-roll QR, idle heckler, leaderboard, placeholder slots for levels 2 and 3) at the same time.
+**What happened:** Opus wrote the story (a burnt-out bot called CAPT. CHA guards three gates), the colour and type tokens, the `runs` table with row-level security, and a build plan that gave each agent its own set of files. Three Sonnet agents then built, at the same time: the WebGL landing page, the CAPTCHA game (6 challenge types, 4 drawn at random per run), and the fun shell (rick-roll QR, an idle heckler, the leaderboard).
 
-**Takeaway:** Parallel agents only work when the plan draws hard file boundaries and fixes the shared interfaces first.
+**What we learned:** Parallel agents only work if the plan fixes the shared interfaces first and says who owns which file. Without that they overwrite each other.
 
 ---
 
-## 04. Turn it into a fairytale, with a real narrator
+## 04. Turn it into a fairytale with a real narrator
 
-**Tool:** Claude Code (Opus 5.5 lead, Opus builders), ElevenLabs connector, Kaizen by makemepulse as the visual reference
+**Tool:** Claude Code (Opus 5.5 lead plus Opus builders), ElevenLabs connector, kaizen.makemepulse.com as the visual reference
 
 **Prompt:**
-> Integrate a short fairytale: a prince and princess in the kingdom of MIT-WPU, King Rudra refuses the marriage, a hooded figure kidnaps the princess, a note says "Solve the three trials and find me." Seven-scene opening cinematic, three trials, an ending, Play Again. Ask the player for their name and their partner's name. Narrate it with ElevenLabs, add music where nobody is talking, and match kaizen.makemepulse.com.
+> I want a short fairytale in the game. A prince and princess in the kingdom of MIT-WPU. King Rudra refuses the marriage, a hooded figure kidnaps the princess, and the note says "Solve the three trials and find me." Give me a seven-scene opening, then the three trials, then an ending and a Play Again button. Ask the player for their own name and their partner's name. Narrate it with ElevenLabs, put music wherever nobody is talking, and make it look like kaizen.makemepulse.com.
 
-**What happened:** The lead studied Kaizen live (loader, word-by-word underlined captions, painterly brush-stroke scenes, cream and navy UI) and wrote the script so the narrator never says a name, which lets any couple star in it. 14 lines were voiced with ElevenLabs ("Storyteller Mom", eleven_v4). When the API rate-limited, the last 8 lines were generated as one take and split on silence with ffmpeg. Music is a generative Web Audio score that ducks under the voice. Two Opus builders worked in parallel with strict file ownership: one on the cinematic shell and 14 painted SVG scenes, one on the trials. A dynamic workflow of four Opus reviewers then audited and fixed 21 defects.
+**What happened:** The lead studied Kaizen (loader, captions that reveal word by word with the current word underlined, painterly scenes, cream and navy UI) and wrote the script so the narrator never says a name. That means any couple can star in it. 14 lines were voiced with the "Storyteller Mom" voice. When the API rate-limited us, the last 8 lines were generated as one long take and cut apart on silences with ffmpeg. The music is generated live with the Web Audio API and ducks under the voice. Two Opus builders worked in parallel, one on the cinematic shell and its 14 painted SVG scenes, the other on the trials. A four-agent review workflow then found and fixed 21 defects.
 
-**Takeaway:** Write narration to survive personalisation. Name-free audio plus named captions gave a custom story without generating audio per player.
+**What we learned:** Write narration so it survives personalisation. Audio with no names plus captions with names gave a custom story without generating audio for each player.
 
 ---
 
 ## 05. Listen to the playtest
 
-**Tool:** Claude Code (Opus 5.5), a two-agent dynamic workflow
+**Tool:** Claude Code (Opus 5.5), a two-agent workflow
 
 **Prompt:**
-> The fonts overlap on a lot of screens. Add more fun, cut the small subtext, make it concise, punny and human. Leave Trials 2 and 3 alone: Tana will add her games there, so make the code ready for that. Make everything user friendly.
+> The text overlaps on a lot of screens, please fix that. Add more fun, but cut the small subtext so it's short, punny and sounds like a person wrote it. Leave Trials 2 and 3 alone, because Tana will add her games there, so just make the code ready for her to plug them in. Make everything easy to use.
 
-**What happened:** The root cause of the overlaps was one line: the marker font had line-height 0.95, so wrapped titles collided. A small in-browser detector then checked every screen at 1024 px and 375 px for overlapping, clipped or tiny text. The trial card lost its duplicate labels and sub-lines. Trial 1 gained confetti, combo chips, a fail shake, forest puns and a new "Blink back" challenge. Trials 2 and 3 became one-file plug-in slots (`src/trials/trial2.tsx`, `trial3.tsx`) with a kit, a template and `TRIALS.md` for Tana.
+**What happened:** The cause of the overlaps was one line: the marker font had a line-height of 0.95, so wrapped titles collided. After fixing it, a small in-browser checker looked at every screen at 1024 px and 375 px for overlapping, clipped or tiny text. Trial 1 gained confetti, combo chips, a shake on failure, forest puns and a new "Blink back" challenge. Trials 2 and 3 became one-file plug-in slots with a shared kit, a template and a short guide (`web/TRIALS.md`).
 
-**Takeaway:** Fix the cause, not the symptom. Then measure every screen instead of eyeballing a few.
+**What we learned:** Fix the cause, not the symptom, and then measure every screen instead of eyeballing a few.
 
 ---
 
-## 06. Tana's trials: Cows & Bulls and the Vault
+## 06. Clean the repo and document the project
 
-**Tool:** Claude Code. Opus planned the work and set the contract. A workflow then ran three Sonnet agents: logic and UI in parallel, then an integration check.
+**Tool:** Claude Code (Sonnet 5.5)
 
 **Prompt:**
-> Puzzle with a Twist: Wordle, but break one rule, so there are no colours. Each guess only gets counts. A bull is a letter in the right place, a cow is a letter in the word but in the wrong place. If the word is TALE and the guess is BATH, that's 1 bull and 1 cow. 3 or 4 letters, no repeated letters, real words only, 10 attempts. It has to drop straight into my teammate's story frontend. I'm short on time, so make it fast.
+> Clean the repo. Remove all the inspiration material and the hackathon kit, and keep only the main storytelling game website and AI_LOG.md. Fill in the prompts so they match the website, written so they read like we typed them ourselves, with no placeholders left. Add a good animated README with the tools we used, how we used AI and how everything is integrated, and write a script for the presentation using the workflow in the problem statement.
 
-**What happened:** Before any code was written, Opus fixed a shared contract: the exact `logic.js` exports and component props (`onSolve` and `onFail`). That let two agents build at once without colliding. A third agent ran the tests and the build, and both passed first time. A manual spot check then found real words like "BIG" being rejected, so the guess dictionary was widened from an MIT-licensed English word list, from 310 to 1,172 three-letter words and from 1,466 to 4,311 four-letter words.
+**What happened:** The inspiration folder, the unused Vite starter kit, the private context file and the stale build plan were removed, along with the default Next.js boilerplate. We checked that `npm run build` and `npm run lint` still passed afterwards. We added an animated README (hand-built SVGs, no external services), this log, and a timed presentation script in `PRESENTATION.md`. The database section of the README was checked against the live `runs` table so the columns and limits are real.
 
-**Revision, after the first playtest:**
-> Only 4-letter words. If a guess gets 0 bulls and 0 cows, turn that row red and grey its letters out on the keyboard, like Wordle. Keep tap-to-cross-out. And remember my teammate is building the UI from scratch, so it has to be easy to drop into any UI.
-
-The puzzle was split into three layers: plain JavaScript rules, a headless React hook that holds all game state, and an optional ready-made view with its own `cb-` prefixed CSS, themable through variables. Every dependency on the starter kit was removed. The "red row" is the game's single colour rule. It bends the twist (no colours) just enough to stay fair.
-
-**Second puzzle, Puzzle Passwords:**
-> Build "The Vault of the Stolen Tiara." The player reads 4 gentle clues to work out which animal stole the tiara (Frog, Rabbit or Otter; it's Rabbit), then solves a random riddle. The password must contain both answers and be at least 12 characters, with a live checklist that turns green rule by rule. Always show "Don't use a real password." Keep it wholesome.
-
-The draft asked for a standalone `index.html` in a pixel style. Before any code was written, Claude checked it against Viral's `web/TRIALS.md` and flagged what would not plug in. The standalone file became a React trial component, the pixel look became Viral's storybook kit, and the cat became his CaptchaBot. The win now hands back `onComplete` so the story moves on. Trial 3 runs as two challenges with no timer. A second workflow then ran two Sonnet agents in parallel: one ported Cows & Bulls into Trial 2 in TypeScript, and one built the Vault as Trial 3. A third agent ran the type check, lint and production build, and all three passed. In review, one clue that read oddly was swapped for a friendlier one that points at Rabbit (a half-nibbled carrot).
-
-**Takeaway:** Parallel agents are only fast if the interface is pinned down first. Green tests are not the same as a good game: a human-style spot check caught what the tests missed. And check a prompt against where the code will actually live before building: one review turned a standalone page into a drop-in trial.
+**What we learned:** Documentation is part of the product when the judges read the repo. Checking it against the running system keeps it honest.
 
 ---
 
-## Open items
+## Where we are
 
-- [x] Problem statement chosen
-- [x] Read the PDF brief and confirm the must-haves
-- [x] First build step: Level 1 CAPTCHA (6 challenge types, random 4 per run, pass/fail, restart)
-- [x] Tana's first puzzle built: Cows & Bulls (`hackathon-kit/src/puzzles/cows-bulls/`)
-- [x] Tana: Trial 2 (Cows & Bulls) and Trial 3 (Vault of the Stolen Tiara) live in `web/src/trials/`
-- [ ] Point the Vercel project at `web/` and add the Supabase env vars
+- [x] Problem statement chosen and checked against the brief
+- [x] Level 1 CAPTCHA game, then the full three-trial story with narration and music
+- [x] Live leaderboard on Supabase
+- [x] Playtest fixes and a repo clean-up
+- [x] Tana's Cows & Bulls is live as Trial 2
+- [ ] Tana swaps her own game into `web/src/trials/trial3.tsx` if she wants to (the shared engine already plays a full Trial 3). Trial 2 is already Tana's Cows & Bulls.

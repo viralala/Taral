@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 230" width="1280" height="230" role="img" aria-label="How AI tools were chained: Opus plans, Sonnet builds, ElevenLabs narrates, Opus reviews, Vercel and Supabase ship.">
+<style>
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes dash{to{stroke-dashoffset:-16}}
+.m{font-family:'Permanent Marker','Comic Sans MS',cursive;fill:#0b1a33}
+.s{font-family:'Patrick Hand','Comic Sans MS',cursive;fill:#0b1a33}
+.l{font-family:'Patrick Hand SC','Comic Sans MS',cursive;fill:#efead7;letter-spacing:.2em}
+</style>
+<rect width="1280" height="230" rx="24" fill="#0b1240"/>
+<text x="640" y="40" text-anchor="middle" class="l" font-size="18">HOW THE AI PIPELINE FLOWS</text>
+<path d="M234 115 L276 115" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8" style="animation:dash 1s linear infinite"/><path d="M268 106 L278 115 L268 124" fill="none" stroke="#efead7" stroke-width="4" stroke-linecap="round"/><path d="M484 115 L526 115" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8" style="animation:dash 1s linear infinite"/><path d="M518 106 L528 115 L518 124" fill="none" stroke="#efead7" stroke-width="4" stroke-linecap="round"/><path d="M734 115 L776 115" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8" style="animation:dash 1s linear infinite"/><path d="M768 106 L778 115 L768 124" fill="none" stroke="#efead7" stroke-width="4" stroke-linecap="round"/><path d="M984 115 L1026 115" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8" style="animation:dash 1s linear infinite"/><path d="M1018 106 L1028 115 L1018 124" fill="none" stroke="#efead7" stroke-width="4" stroke-linecap="round"/><g style="animation:pop .7s ease-out 0.0s both"><rect x="30" y="70" width="200" height="90" rx="16" fill="#e8f20a" stroke="#003c74" stroke-width="3"/>
+<text x="130.0" y="111.0" text-anchor="middle" class="m" font-size="20">Opus 5.5</text>
+<text x="130.0" y="135.0" text-anchor="middle" class="s" font-size="13">plans the story + rules</text></g><g style="animation:pop .7s ease-out 0.5s both"><rect x="280" y="70" width="200" height="90" rx="16" fill="#bfe6d9" stroke="#003c74" stroke-width="3"/>
+<text x="380.0" y="111.0" text-anchor="middle" class="m" font-size="20">Sonnet 5.5 x3</text>
+<text x="380.0" y="135.0" text-anchor="middle" class="s" font-size="13">build in parallel</text></g><g style="animation:pop .7s ease-out 1.0s both"><rect x="530" y="70" width="200" height="90" rx="16" fill="#f6b5c8" stroke="#003c74" stroke-width="3"/>
+<text x="630.0" y="111.0" text-anchor="middle" class="m" font-size="20">ElevenLabs</text>
+<text x="630.0" y="135.0" text-anchor="middle" class="s" font-size="13">voices the narrator</text></g><g style="animation:pop .7s ease-out 1.5s both"><rect x="780" y="70" width="200" height="90" rx="16" fill="#ffb98a" stroke="#003c74" stroke-width="3"/>
+<text x="880.0" y="111.0" text-anchor="middle" class="m" font-size="20">Opus reviewers</text>
+<text x="880.0" y="135.0" text-anchor="middle" class="s" font-size="13">audit + fix 21 bugs</text></g><g style="animation:pop .7s ease-out 2.0s both"><rect x="1030" y="70" width="200" height="90" rx="16" fill="#efead7" stroke="#003c74" stroke-width="3"/>
+<text x="1130.0" y="111.0" text-anchor="middle" class="m" font-size="20">Vercel + Supabase</text>
+<text x="1130.0" y="135.0" text-anchor="middle" class="s" font-size="13">ship + leaderboard</text></g>
+<text x="640" y="205" text-anchor="middle" class="l" font-size="14" opacity=".7">PLAN  ·  BUILD  ·  VOICE  ·  REVIEW  ·  SHIP</text>
+</svg>

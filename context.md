@@ -5,7 +5,23 @@ Read this at the start of every new chat. These are the standing settings for th
 ## Event
 - Puzzle building hackathon, judged on prompt engineering and vibe coding ability.
 - Judges read the repo and AI_LOG.md. The prompts are the product as much as the code.
-- Problem statement: not yet provided. The user will paste it later. When it arrives, save it here under "Problem statement".
+- Build window: 4:00 to 6:00 PM. See "Problem statement" below.
+
+## Problem statement
+One theme, Puzzles, with 4 statements: 01 Reimagine CAPTCHA ("Prove you're human. Make it fun."), 02 Puzzle Passwords ("Your password must contain a riddle."), 03 Puzzle with a Twist ("Take a puzzle everyone knows. Break one rule."), 04 Open Innovation Puzzles ("Any puzzle. Your rules.").
+
+Our entry mashes up all 4: a story game where a prince journeys back to his princess and solves puzzles on the way.
+- Viral: storytelling frontend.
+- Tanaya: the puzzles.
+  1. Puzzle with a Twist: Cows & Bulls (Wordle with no colours, only bull/cow counts). 4-letter words only, no repeated letters, real words only, 10 attempts. The one colour rule: a guess with 0 bulls and 0 cows turns red and its letters grey out on the keyboard. Players can also cross letters out by hand (notes).
+  2. Puzzle Passwords: design pending.
+  3. CAPTCHA: design pending.
+
+## Puzzle contract (for integration)
+- Viral is building his own UI from scratch, not the hackathon-kit UI. Puzzles must never import from the kit (`components/ui`, Tailwind classes, theme tokens).
+- Each puzzle lives in `hackathon-kit/src/puzzles/<id>/` as three layers: `logic.js` (plain JS rules), `use<Puzzle>.js` (headless React hook: state and actions, no markup), and `<Puzzle>.jsx` + its own prefixed CSS file (ready-made view, themable through CSS variables).
+- Every puzzle component takes `onSolve(result)` and `onFail(result)` and needs no router, auth or API. Story scenes render it and react to the callback.
+- `src/puzzles/index.js` lists all puzzles. The demo route is `/puzzle/:id`.
 
 ## Repo
 - Name: Taral

@@ -69,7 +69,28 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
+## 06. Build puzzle 1: Cows & Bulls
+
+**Tool:** Claude Code. Opus planned the work and set the contract. A workflow then ran three Sonnet agents: logic and UI in parallel, then an integration check.
+
+**Prompt:**
+> Puzzle with a Twist: Wordle, but break one rule, so there are no colours. Each guess only gets counts. A bull is a letter in the right place, a cow is a letter in the word but in the wrong place. If the word is TALE and the guess is BATH, that's 1 bull and 1 cow. 3 or 4 letters, no repeated letters, real words only, 10 attempts. It has to drop straight into my teammate's story frontend. I'm short on time, so make it fast.
+
+**What happened:** Before any code was written, Opus fixed a shared contract: the exact `logic.js` exports and component props (`onSolve` and `onFail`). That let two agents build at once without colliding. A third agent ran the tests and the build, and both passed first time. A manual spot check then found real words like "BIG" being rejected, so the guess dictionary was widened from an MIT-licensed English word list, from 310 to 1,172 three-letter words and from 1,466 to 4,311 four-letter words.
+
+**Revision, after the first playtest:**
+> Only 4-letter words. If a guess gets 0 bulls and 0 cows, turn that row red and grey its letters out on the keyboard, like Wordle. Keep tap-to-cross-out. And remember my teammate is building the UI from scratch, so it has to be easy to drop into any UI.
+
+The puzzle was split into three layers: plain JavaScript rules, a headless React hook that holds all game state, and an optional ready-made view with its own `cb-` prefixed CSS, themable through variables. Every dependency on the starter kit was removed. The "red row" is the game's single colour rule. It bends the twist (no colours) just enough to stay fair.
+
+**Takeaway:** Parallel agents are only fast if the interface is pinned down first. Green tests are not the same as a good game: one human-style spot check caught what the tests missed. And when a teammate owns the UI, ship the logic headless and treat the visuals as an optional extra.
+
+---
+
 ## Open items
 
-- [ ] Problem statement (waiting on the user)
-- [ ] First build step after the statement is in
+- [x] Problem statement (saved in context.md)
+- [x] Puzzle 1: Cows & Bulls
+- [ ] Puzzle 2: Puzzle Passwords (design pending)
+- [ ] Puzzle 3: CAPTCHA (design pending)
+- [ ] Hook the puzzles into Viral's story scenes

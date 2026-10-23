@@ -1,0 +1,43 @@
+{
+  "users": [
+    {
+      "id": "demo",
+      "name": "Demo User",
+      "email": "demo@kiln.test",
+      "password": "demo1234",
+      "createdAt": "2026-10-01T09:00:00.000Z"
+    }
+  ],
+  "posts": [
+    {
+      "id": "launch",
+      "tag": "Announcement",
+      "title": "The platform is live: here is what you can do today",
+      "excerpt": "A walkthrough of the first release and the problems it already solves.",
+      "date": "2026-10-20",
+      "cover": "halftone"
+    },
+    {
+      "id": "case-study",
+      "tag": "Case study",
+      "title": "How one team cut their turnaround time in half",
+      "excerpt": "Real numbers from a pilot that ran for six weeks.",
+      "date": "2026-10-12",
+      "cover": "ink"
+    },
+    {
+      "id": "roadmap",
+      "tag": "Roadmap",
+      "title": "What we are building next, and why",
+      "excerpt": "Collaboration, analytics and an open API are on the way.",
+      "date": "2026-10-03",
+      "cover": "accent"
+    }
+  ],
+  "items": [
+    { "id": "i1", "title": "First item", "status": "active", "createdAt": "2026-10-18T10:00:00.000Z" },
+    { "id": "i2", "title": "Second item", "status": "pending", "createdAt": "2026-10-17T10:00:00.000Z" },
+    { "id": "i3", "title": "Third item", "status": "done", "createdAt": "2026-10-16T10:00:00.000Z" }
+  ],
+  "submissions": []
+}

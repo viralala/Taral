@@ -1,0 +1,89 @@
+/* ============================================================
+   THEME TOKENS — the only file you need to touch to rebrand.
+   Default palette = the Caldera-inspired look (warm grey,
+   safety orange, electric violet, lemon, near-black).
+   Switch palettes with <html data-palette="ocean"> etc.
+   Switch light/dark with <html data-theme="dark">.
+   ============================================================ */
+
+:root {
+  /* Type */
+  --font-display: 'Archivo Variable', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'DM Sans Variable', system-ui, sans-serif;
+  --display-stretch: 75%;
+  --display-weight: 860;
+
+  /* Shape */
+  --radius-card: 28px;   /* big section cards */
+  --radius-panel: 18px;  /* nested panels */
+  --radius-tile: 12px;   /* small tiles, inputs */
+
+  /* Neutrals */
+  --bg: #dfdfda;
+  --surface: #f6f5f1;
+  --surface-2: #ecebe6;
+  --ink: #0d0d0c;
+  --on-ink: #f6f5f1;
+  --muted: #5b5a54;
+  --line: rgb(13 13 12 / 0.14);
+  --dot: rgb(13 13 12 / 0.07);
+
+  /* Brand */
+  --primary: #ff4f00;
+  --primary-hover: #e44600;
+  --on-primary: #ffffff;
+  --accent: #5546e8;
+  --on-accent: #ffffff;
+  --highlight: #efed8a;
+  --on-highlight: #0d0d0c;
+
+  /* Status */
+  --success: #19a35b;
+  --danger: #e5383b;
+}
+
+/* ---------- Palette presets (keep the layout, change the mood) ---------- */
+[data-palette='ocean'] {
+  --primary: #0a6cff;
+  --primary-hover: #0057d6;
+  --accent: #00b39b;
+  --highlight: #bfe9ff;
+}
+[data-palette='forest'] {
+  --primary: #1f8f4e;
+  --primary-hover: #187a41;
+  --accent: #f2a900;
+  --on-accent: #0d0d0c;
+  --highlight: #e3f1a8;
+}
+[data-palette='berry'] {
+  --primary: #e0136e;
+  --primary-hover: #c20f5f;
+  --accent: #2d23c9;
+  --highlight: #ffd6e8;
+}
+[data-palette='mono'] {
+  --primary: #0d0d0c;
+  --primary-hover: #2a2a28;
+  --on-primary: #f6f5f1;
+  --accent: #8a8a83;
+  --highlight: #e8e8e2;
+}
+
+/* ---------- Dark mode ---------- */
+[data-theme='dark'] {
+  --bg: #121211;
+  --surface: #1c1c1a;
+  --surface-2: #262623;
+  --ink: #f3f2ee;
+  --on-ink: #121211;
+  --muted: #a3a29b;
+  --line: rgb(243 242 238 / 0.14);
+  --dot: rgb(243 242 238 / 0.06);
+  --on-highlight: #0d0d0c;
+}
+[data-theme='dark'][data-palette='mono'] {
+  --primary: #f3f2ee;
+  --primary-hover: #d9d8d2;
+  --on-primary: #121211;
+}

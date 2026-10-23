@@ -71,7 +71,7 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
-## 06. Build puzzle 1: Cows & Bulls
+## 06. Tana's trials: Cows & Bulls and the Vault
 
 **Tool:** Claude Code. Opus planned the work and set the contract. A workflow then ran three Sonnet agents: logic and UI in parallel, then an integration check.
 
@@ -85,7 +85,12 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 The puzzle was split into three layers: plain JavaScript rules, a headless React hook that holds all game state, and an optional ready-made view with its own `cb-` prefixed CSS, themable through variables. Every dependency on the starter kit was removed. The "red row" is the game's single colour rule. It bends the twist (no colours) just enough to stay fair.
 
-**Takeaway:** Parallel agents are only fast if the interface is pinned down first. Green tests are not the same as a good game: one human-style spot check caught what the tests missed. And when a teammate owns the UI, ship the logic headless and treat the visuals as an optional extra.
+**Second puzzle, Puzzle Passwords:**
+> Build "The Vault of the Stolen Tiara." The player reads 4 gentle clues to work out which animal stole the tiara (Frog, Rabbit or Otter; it's Rabbit), then solves a random riddle. The password must contain both answers and be at least 12 characters, with a live checklist that turns green rule by rule. Always show "Don't use a real password." Keep it wholesome.
+
+The draft asked for a standalone `index.html` in a pixel style. Before any code was written, Claude checked it against Viral's `web/TRIALS.md` and flagged what would not plug in. The standalone file became a React trial component, the pixel look became Viral's storybook kit, and the cat became his CaptchaBot. The win now hands back `onComplete` so the story moves on. Trial 3 runs as two challenges with no timer. A second workflow then ran two Sonnet agents in parallel: one ported Cows & Bulls into Trial 2 in TypeScript, and one built the Vault as Trial 3. A third agent ran the type check, lint and production build, and all three passed. In review, one clue that read oddly was swapped for a friendlier one that points at Rabbit (a half-nibbled carrot).
+
+**Takeaway:** Parallel agents are only fast if the interface is pinned down first. Green tests are not the same as a good game: a human-style spot check caught what the tests missed. And check a prompt against where the code will actually live before building: one review turned a standalone page into a drop-in trial.
 
 ---
 
@@ -95,6 +100,5 @@ The puzzle was split into three layers: plain JavaScript rules, a headless React
 - [x] Read the PDF brief and confirm the must-haves
 - [x] First build step: Level 1 CAPTCHA (6 challenge types, random 4 per run, pass/fail, restart)
 - [x] Tana's first puzzle built: Cows & Bulls (`hackathon-kit/src/puzzles/cows-bulls/`)
-- [ ] Tana: swap her games into `web/src/trials/trial2.tsx` and `trial3.tsx` (see `web/TRIALS.md`)
-- [ ] Tana: design the second puzzle (Puzzle Passwords)
+- [x] Tana: Trial 2 (Cows & Bulls) and Trial 3 (Vault of the Stolen Tiara) live in `web/src/trials/`
 - [ ] Point the Vercel project at `web/` and add the Supabase env vars

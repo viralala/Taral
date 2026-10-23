@@ -1,67 +1,102 @@
-# TARAL — "Are You Even Human?"  (build spec, written by Opus, implemented by Sonnet agents)
+# TARAL — The Three Trials (v2 spec, Opus)
 
-Open Innovation submission. A 3-level story game; each level is one hackathon problem statement.
-- Level 1 — **The CAPTCHA That Judges You Back** (PS 01 Reimagine CAPTCHA) — built here.
-- Level 2 — **The Password Riddler** (PS 02 Puzzle Passwords) — partner's game, slot only.
-- Level 3 — **The Final Puzzle** (PS 03) — partner's game, slot only.
+A fairytale CAPTCHA adventure for Pixathon by Insight AI, set in the kingdom of MIT-WPU.
+The player types their own name and their partner's name; the story stars them.
+Visual and motion language follows **kaizen.makemepulse.com** (Awwwards): painterly brush-stroke scenes,
+deep indigo → violet → peach skies, cream paper `#EFEAD7` + navy `#003C74` UI, hand-lettered UPPERCASE captions
+that reveal word by word with the active word underlined, a loader percentage, "CLICK TO START", sound bars
+top-right, "SKIP" bottom-right, chapter cards ("FIRST ACT"), film grain, a creature the cursor guides.
 
-## Story
-You wake up inside the internet. A tired, dramatic security bot named **CAPT. CHA** (a CAPTCHA with
-20 years of clicking-traffic-lights trauma) blocks the exit: "Nobody leaves until they prove they're human."
-Each level is a gate. Between gates CAPT. CHA monologues: ragebait → mogging → existential crisis → motivation.
-The ending flips it: "Being human was never about passing. It was about trying anyway." Humanity score saved to Supabase.
+## Story (source of truth: `src/lib/story.ts`)
+INTRO (7 narrated lines) → Level 1 Forest of Clues → Level 2 Bridge of Insight → Level 3 Final Challenge →
+ENDING (4 narrated lines: rescue, reveal that the hooded kidnapper was CAPT. CHA the royal CAPTCHA, King Rudra's
+blessing, reunion under the cherry blossoms) → completion screen with Play Again.
+Narration audio never says names; captions/title cards use `fill(text, hero, love)`.
 
-## Visual direction (ref: 2019.makemepulse.com + user's groovy pastel flower images)
-- Cream paper bg, blush 5-petal blob flowers outlined in cocoa, thin pink asterisk flowers, sky/blush pill tags,
-  Fraunces wonky serif display, Space Grotesk body, Caveat for handwritten asides.
-- Makemepulse vibes: full-viewport WebGL hero with floating 3D objects reacting to mouse (parallax), scroll-driven
-  chapter reveals, giant serif text that splits/masks in, custom cursor (done), sticky "chapter" transitions,
-  "hold to enter" interaction to start. Keep theme elements SPARSE — lots of cream breathing room.
-- Tokens already in `src/app/globals.css` (Tailwind: bg-cream, text-cocoa, bg-blush, bg-sky, bg-butter, bg-sage,
-  text-ink, bg-night, font-display via `.display`, `.hand`, `.pill`). Components: `@/components/Flower`
-  (BlobFlower, StarFlower), cursor labels via `data-cursor="play"` attribute on any element.
-- Libraries installed: framer-motion, three, @react-three/fiber, @react-three/drei, lenis (already global),
-  qrcode.react, canvas-confetti, @supabase/supabase-js (`@/lib/supabase`: saveRun, topRuns).
+## Shared modules (DONE — import, never rewrite)
+- `src/lib/story.ts` — INTRO, LEVEL_INTRO, ENDING, LEVELS, `fill()`, `SceneArt` union.
+- `src/lib/audio.ts` — `unlockAudio()`, `music.start/setMood/stop`, `narrate(id, text, onProgress) → {done, cancel}`,
+  `stopNarration()`, `sfx("pass"|"fail"|"click"|"tick"|"whoosh"|"chime")`, `setMuted/isMuted/onMuted/loadMutedPref`.
+  Moods: night, blossom, forest, bridge, tower, joy.
+- `src/lib/player.tsx` — `usePlayer() → { player: {hero, love, heroTitle, loveTitle}, setPlayer }`, `styled(name, title, fallback)`.
+- `src/lib/supabase.ts` — `saveRun({name, level, humanity, time_ms, verdict})`, `topRuns(level, n)`.
+- `src/app/globals.css` — tokens: paper, paper-2, navy, ink, night, dusk, violet, peach, coral, rose, blossom, lime, leaf, mint
+  (Tailwind `bg-night`, `text-navy` …). Classes: `.marker` (Permanent Marker titles), `.hand` (Patrick Hand SC uppercase),
+  `.scribble` underline, `.btn-paint` (lime blob button), `.btn-ghost`, `.paper-card`, keyframes drift/sway/petal-fall/twinkle/rise/kenburns.
+- `public/audio/<line id>.mp3` — ElevenLabs narration (being generated; code must work if a file is missing: narrate() falls back to a timer).
 
-## Tone (all copy)
-Funny puns, similes, metaphors, light ragebait ("This button is load-bearing for your ego"), mogging
-("CAPT. CHA has solved 4 billion CAPTCHAs. You have solved your sleep schedule 0 times."), then sudden deep
-one-liners ("A robot never doubts. That's why you're winning."), ending in motivation. Never mean-spirited.
-Rick-roll QR appears at least twice (hero "scan to skip the CAPTCHA" and in-game "verify via mobile").
-QR value: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+## Contract between the two builders
+`src/components/game/LevelGame.tsx` (Builder B) default export:
+```ts
+type LevelResult = { level: 1|2|3; passed: number; total: number; humanity: number; timeMs: number; cleared: boolean };
+export default function LevelGame(props: {
+  level: 1 | 2 | 3;
+  onComplete?: (r: LevelResult) => void; // quest mode: called when the level is CLEARED (player may retry inside)
+  standalone?: boolean;                    // /level/[n] practice mode: shows its own result screen + restart
+}): JSX.Element
+export type { LevelResult }
+```
+Each level = 3 challenges drawn at random from that level's pool. Cleared = at least 2 of 3 passed. If not cleared,
+LevelGame shows a "The path closes. Try again" retry (new random draw) — no reload. Every challenge ≤ 30 s with a
+visible timer, immediate PASS/FAIL stamp + sfx, and a story clue line.
 
-## Routes / ownership (agents must only touch their own files)
-| Agent | Files |
-|---|---|
-| A — Landing | `src/app/page.tsx`, `src/components/home/*` |
-| B — CAPTCHA game | `src/app/level/1/page.tsx`, `src/components/game/*` |
-| C — Fun + shell | `src/app/level/[n]/page.tsx` (levels 2,3 placeholders), `src/app/leaderboard/page.tsx`, `src/app/not-found.tsx`, `src/components/fun/*` (RickQR, Ragebait toast, Marquee, Nav, Footer) |
+## Builder A — story shell + cinematics (files: `src/app/page.tsx`, `src/components/story/*`, `src/components/Cursor.tsx`,
+delete `src/components/home/*`, `src/components/SmoothScroll.tsx`, `src/components/Flower.tsx` only if nothing imports it)
+Single-page quest state machine at `/`:
+1. **Loader**: night bg, three painted dots, "A TARAL PRODUCTION · PIXATHON BY INSIGHT AI", counting % (preload the 14 mp3s
+   with fetch, cap wait ~4 s), then "CLICK TO START" → `unlockAudio()`, `music.start("night")`.
+2. **Names**: "WHO ARE YOU, TRAVELLER?" — your name + title (Prince / Princess / Royal), partner's name + title. Required,
+   ≤ 16 chars, prefilled from usePlayer. Painted lime button "ONCE UPON A TIME →".
+3. **Intro cinematic**: 7 INTRO lines. Each line = full-screen painted scene (`<Scene art=…/>`) + optional title card
+   (`.marker`, fill names) + Kaizen caption (bottom-center, `.hand`, words appear one by one driven by narrate progress,
+   current word underlined, upcoming words faint). Crossfade between scenes (~700 ms). Music moods: kingdom/meet→blossom,
+   king/taken/note→night, montage/glimpse→joy. SKIP bottom-right skips the whole cinematic. Click anywhere advances a line.
+   Ends with a big **BEGIN YOUR QUEST** button.
+4. For each level 1..3: **chapter card** ("FIRST TRIAL"/"SECOND TRIAL"/"FINAL TRIAL" + level name) then LEVEL_INTRO line
+   narrated over its scene (forest/bridge/door), then `<LevelGame level={n} onComplete=…/>` over a dimmed version of the
+   scene, music mood forest/bridge/tower. Top HUD: level name, 3 progress petals for levels, sound toggle.
+   After clearing: short interstitial with the level's `LEVELS[n].clue` ("CLUE FOUND") and Continue.
+5. **Ending cinematic**: 4 ENDING lines, mood joy; then **completion screen**: "{hero} & {love} lived puzzlingly ever after",
+   total humanity % (avg of levels), time, save to leaderboard (name = hero, level 3 row), link to /leaderboard,
+   **PLAY AGAIN** (resets to intro, keeps names; also "change names").
+Persistent UI (all phases after start): sound bars toggle top-right (animated bars, `setMuted`), SKIP during cinematics.
+Painted scenes (`src/components/story/Scene.tsx` + art files): SVG, painterly — wobbly shapes run through an
+`feTurbulence + feDisplacementMap` filter, layered brush strokes, grain, slow CSS drift/kenburns parallax driven by
+pointer (CSS vars), falling cherry petals. Required arts: kingdom (castle towers on MIT-WPU hill under violet dusk, lanterns,
+banner "PIXATHON"), meet (cherry tree, two silhouettes, petals), king (crown silhouette, red/coral sky, throne),
+taken (moonless night, hooded figure carrying someone away), note (paper note close-up, handwriting "Solve the three
+trials and find me."), montage (three panels: forest / bridge / door), glimpse (two silhouettes under blossoms, soft
+focus), forest (deep green/teal trees with eyes glinting), bridge (rope bridge over violet chasm, mist), door (tower door
+with three locks, torchlight), rescue (door open, light pours out), reveal (hood falls: CAPT. CHA flower-face bot,
+sheepish), blessing (king lowering crown/hand, warm peach), reunion (cherry tree, petals falling, sunrise).
+Silhouettes are simple, elegant, no faces needed. Cursor: a glowing blossom petal/firefly with a painted petal trail
+(Kaizen's guided bird), grows over `[data-cursor]`.
 
-Shared (read-only for agents): `globals.css`, `layout.tsx`, `Cursor.tsx`, `Flower.tsx`, `supabase.ts`.
-Agent A imports `Nav`/`Footer`/`RickQR`/`Marquee` from `@/components/fun` — Agent C must export exactly:
-`export { default as Nav } ...`, `Footer`, `RickQR` (props: `{ size?: number; caption?: string }`), `Marquee` (props: `{ items: string[] }`),
-`RageToast` (mount once, randomly heckles idle users after ~12s idle).
+## Builder B — gameplay (files: `src/components/game/*`, `src/app/level/**`, `src/app/leaderboard/page.tsx`,
+`src/app/not-found.tsx`, `src/components/fun/*`)
+- Refactor the Level 1 engine into `LevelGame` per the contract. Keep ALL six existing CAPTCHA mechanics working.
+- Level 1 Forest of Clues (observation/visual) pool: feelings grid (reskin: "select every square that hides a clue"
+  keep traffic-light trap), circle ("draw the moon over the forest"), runaway checkbox ("catch the firefly checkbox"),
+  hold ("hold your breath for exactly 3 s while the owl watches"), plus NEW "spot the odd one" (5×5 grid of forest
+  emoji/glyphs, one differs subtly) and NEW "pattern path" (sequence of glyphs — pick what comes next).
+- Level 2 Bridge of Insight (riddles/reasoning, PS 02 Puzzle Passwords) pool, all NEW: riddle plank (random from ≥ 8
+  short riddles, 4 choices), password riddler (build a password meeting live rules incl. one containing a riddle
+  answer, rules tick as you type), cipher plank (Caesar-shifted short word with shift hint), odd logic (which statement
+  is false), typo sentence (existing typo mechanic reskinned: "the troll only lets imperfect spellers cross").
+- Level 3 Final Challenge pool (PS 03 / finale): memory lock (show 4 glyphs 3 s, then pick them in order), clue lock
+  (combination from the three LEVELS clues — e.g. which item appeared in the note: blossom / ink / traffic lights),
+  mobile rick-roll verify (existing), "are you human?" confession (choose the most human answer among robotic ones),
+  plus hold (existing) reskinned as "turn the final key for exactly 3 s".
+- Each challenge: title, 1-line prompt, story flavour line (CAPT. CHA's voice becomes the mysterious "Hooded Voice"
+  in quest mode? NO — keep CAPT. CHA as the warden who heckles; the reveal at the end is that he is the kidnapper,
+  so in levels show him as a hooded flower silhouette called "THE HOODED VOICE" with his same funny quips).
+- Restyle game UI to the Kaizen theme: paper-card on dark painted background, navy ink, `.hand` labels, `.marker`
+  titles, `.btn-paint` buttons, lime/coral PASS/FAIL stamps, timer as a brush-stroke bar. Use `sfx()` on pass/fail/clicks.
+- `/level/[n]` (n = 1,2,3) = standalone practice using LevelGame standalone, with a link "Play the full story" → `/`.
+  Remove `src/app/level/1` folder (merge into `[n]`), generateStaticParams 1..3.
+- Restyle leaderboard + not-found + fun components to the new theme (remove RageToast/Marquee if unused).
+- Works with touch, ≤ 30 s per challenge, mobile layout ≥ 360 px wide.
 
-## Level 1 game spec (Agent B)
-- Start screen → 4 random challenges from a pool of 6 (generator) → result screen. Each challenge has a visible
-  timer (max 20–30 s), clear PASS/FAIL feedback (stamp animation + CAPT. CHA quip), and a "Try again" restart
-  without reload. Score = humanity % (avg across challenges, failing gives partial). Name input → saveRun level 1.
-- Challenge pool:
-  1. **Draw a circle** — canvas; robots draw perfect circles. Pass if circularity error is between 4% and 30%
-     ("too perfect = robot", "too wobbly = abstract art"). Show score.
-  2. **Select all squares with feelings** — 3x3 grid of emoji/situations (e.g. "Monday 9am", "Last slice of pizza",
-     "Unread 'we need to talk'", "a traffic light"). Correct = the emotionally loaded ones; traffic light is the trap
-     ("CAPT. CHA: 'I have seen 10 million traffic lights. They feel nothing. Neither do I.'").
-  3. **The Runaway Checkbox** — "I'm not a robot" checkbox that flees the cursor; gets tired after enough attempts
-     (humans are stubborn). Pass if clicked before timer.
-  4. **Type it with a typo** — "Type: I am definitely a human" — must contain exactly 1–3 typos (Levenshtein).
-     Perfect typing fails ("suspiciously accurate").
-  5. **Hold for exactly 3 seconds** — while thinking about your ex. Pass within ±0.4 s; robots are too precise
-     (±0.02 s also fails, lol).
-  6. **Verify via mobile** — rick-roll QR + 3 fake buttons; the honest answer "I got rick-rolled" passes.
-- CAPT. CHA character: a floating SVG/CSS face (round blush flower with eyes that follow cursor) with speech
-  bubble; moods: smug, shocked, crying, proud.
-- After result: confetti on pass, "Proceed to Level 2 →" link (`/level/2`), leaderboard top 5 via topRuns(1).
-
-## Done
-`npm run build` passes with no type errors.
+## Done =
+`npm run build` passes (lint + types). Do NOT run `npm run dev`/`next dev`; do NOT run `npm run build` while the other
+builder might be building — use `npx tsc --noEmit` for checks; the lead runs the final build.

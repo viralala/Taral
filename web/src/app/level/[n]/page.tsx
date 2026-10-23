@@ -1,56 +1,56 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Nav, Footer, RageToast } from "@/components/fun";
-import { BlobFlower, StarFlower } from "@/components/Flower";
+import { Backdrop, Nav } from "@/components/fun";
+import { LEVELS } from "@/lib/story";
+import TrialPractice from "@/trials/Practice";
 
-const LEVELS: Record<string, { title: string; ps: string; quip: string }> = {
-  "2": {
-    title: "The Password Riddler",
-    ps: "PS 02",
-    quip: "Passwords are just riddles you forgot the answer to. I have 40 billion of them. Yours is 'password1'.",
-  },
-  "3": {
-    title: "The Final Puzzle",
-    ps: "PS 03",
-    quip: "This is the last gate. Also the one I haven't finished writing insults for. Be gentle.",
-  },
-};
+export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return [{ n: "2" }, { n: "3" }];
+  return [{ n: "1" }, { n: "2" }, { n: "3" }];
 }
 
-// PARTNER: replace <ComingSoon/> with your game component
-function ComingSoon({ title, ps, quip }: { title: string; ps: string; quip: string }) {
-  return (
-    <div className="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center gap-8 px-6 text-center">
-      <div className="relative">
-        <BlobFlower className="h-32 w-32" />
-        <StarFlower className="absolute -right-8 -top-4 h-14 w-14 spin-slow" color="var(--butter)" />
-      </div>
-      <span className="pill bg-sky">{ps}</span>
-      <h1 className="display text-6xl text-cocoa md:text-8xl">{title}</h1>
-      <p className="hand max-w-xl text-3xl text-cocoa">&ldquo;{quip}&rdquo;</p>
-      <p className="max-w-md text-cocoa/80">
-        Your teammate is building this level right now. Like a bridge built mid-crossing.
-      </p>
-      <Link href="/level/1" data-cursor="back" className="pill bg-blush hover:bg-blush-deep">
-        Back to Level 1
-      </Link>
-    </div>
-  );
+const parse = (n: string) => (n === "1" || n === "2" || n === "3" ? (Number(n) as 1 | 2 | 3) : null);
+const TINT = { 1: "forest", 2: "bridge", 3: "tower" } as const;
+
+export async function generateMetadata({ params }: { params: Promise<{ n: string }> }): Promise<Metadata> {
+  const level = parse((await params).n);
+  return { title: level ? `Practice · ${LEVELS[level].name} — Taral` : "Taral" };
 }
 
 export default async function LevelPage({ params }: { params: Promise<{ n: string }> }) {
-  const { n } = await params;
-  const lvl = LEVELS[n];
-  if (!lvl) notFound();
+  const level = parse((await params).n);
+  if (!level) notFound();
   return (
-    <main className="relative">
+    <main className="relative min-h-screen overflow-x-hidden pb-12">
+      <Backdrop tint={TINT[level]} />
       <Nav />
-      <ComingSoon {...lvl} />
-      <Footer />
-      <RageToast />
+      <div className="relative z-10 mx-auto mt-6 flex w-full max-w-[640px] flex-col gap-4 px-4 sm:mt-10">
+        <div className="flex flex-wrap items-end justify-between gap-2 text-paper">
+          <div>
+            <p className="hand text-xs text-paper/60">practice mode</p>
+            <h1 className="marker text-3xl sm:text-4xl">{LEVELS[level].name}</h1>
+          </div>
+          <div className="hand flex gap-2 text-xs sm:text-sm">
+            {([1, 2, 3] as const).map((l) => (
+              <Link
+                key={l}
+                href={`/level/${l}`}
+                data-cursor="go"
+                aria-current={l === level ? "page" : undefined}
+                className={`rounded-full border-2 px-3 py-1 transition ${l === level ? "border-lime bg-lime text-navy" : "border-paper/40 text-paper/80 hover:border-lime"}`}
+              >
+                {l}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <TrialPractice key={level} n={level} />
+        <Link href="/" data-cursor="story" className="hand self-center text-sm text-paper/80 underline underline-offset-4 hover:text-lime">
+          Play the full story →
+        </Link>
+      </div>
     </main>
   );
 }

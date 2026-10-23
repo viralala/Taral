@@ -1,25 +1,27 @@
 import type { Metadata } from "next";
-import { Fraunces, Space_Grotesk, Caveat } from "next/font/google";
+import { Permanent_Marker, Patrick_Hand_SC, Patrick_Hand } from "next/font/google";
 import Cursor from "@/components/Cursor";
-import SmoothScroll from "@/components/SmoothScroll";
+import { PlayerProvider } from "@/lib/player";
 import "./globals.css";
 
-const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], axes: ["SOFT", "WONK", "opsz"] });
-const grotesk = Space_Grotesk({ variable: "--font-grotesk", subsets: ["latin"] });
-const caveat = Caveat({ variable: "--font-caveat", subsets: ["latin"] });
+// Kaizen sets type in "Salted" (licensed). These free Google fonts carry the same hand-lettered feel.
+const marker = Permanent_Marker({ variable: "--font-marker", subsets: ["latin"], weight: "400" });
+const hand = Patrick_Hand_SC({ variable: "--font-hand", subsets: ["latin"], weight: "400" });
+const body = Patrick_Hand({ variable: "--font-body", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
-  title: "Taral — Are You Even Human?",
-  description: "A three-level story game about proving you're human. Level 1: the CAPTCHA that judges you back.",
+  title: "Taral — The Three Trials",
+  description: "A fairytale CAPTCHA adventure in the kingdom of MIT-WPU. Made for Pixathon by Insight AI.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${fraunces.variable} ${grotesk.variable} ${caveat.variable} antialiased grain`}>
-        <SmoothScroll />
-        <Cursor />
-        {children}
+      <body className={`${marker.variable} ${hand.variable} ${body.variable} antialiased grain`}>
+        <PlayerProvider>
+          <Cursor />
+          {children}
+        </PlayerProvider>
       </body>
     </html>
   );

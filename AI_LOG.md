@@ -30,46 +30,7 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
-## 03. Hold the problem statement
-
-**Tool:** Claude Code
-
-**Prompt:**
-> I will give you the problem statement later. Keep all of this as context so every new chat uses these settings.
-
-**What happened:** Left a placeholder in `context.md` for the problem statement, to be filled once the user shares it.
-
-**Takeaway:** Plan for missing inputs. Reserve the slot now, fill it when it arrives.
-
----
-
-## 04. Keep the repo lean
-
-**Tool:** Claude Code
-
-**Prompt:**
-> Keep the repo empty except for AI_LOG.md. Other local folders stay out of the commit.
-
-**What happened:** Only AI_LOG.md is tracked. Local folders and `context.md` stay on the machine.
-
-**Takeaway:** Judges read what is in the repo. Keep it deliberate.
-
----
-
-## 05. Prepare for the next round
-
-**Tool:** Claude Code
-
-**Prompt:**
-> When the problem statement arrives, add it to context.md, update the log, and tell me what to build first.
-
-**What happened:** Planned the hand-off so the next chat picks up the statement and the log stays current.
-
-**Takeaway:** Write the next prompt before it is needed. The log then shows the thinking, not just the output.
-
----
-
-## 06. Choose the problem statement
+## 03. Choose the problem statement
 
 **Tool:** Claude Code (Claude Haiku 5.5), with a screenshot of the four problem cards
 
@@ -82,7 +43,7 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
-## 07. Plan with Opus, build with a Sonnet squad
+## 04. Plan with Opus, build with a Sonnet squad
 
 **Tool:** Claude Code (Opus 5.5 planner → 3 parallel Sonnet 5.5 agents), Supabase MCP
 
@@ -95,10 +56,36 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
+## 05. Turn it into a fairytale, with a real narrator
+
+**Tool:** Claude Code (Opus 5.5 lead, Opus builders), ElevenLabs connector, Kaizen by makemepulse as the visual reference
+
+**Prompt:**
+> Integrate a short fairytale: a prince and princess in the kingdom of MIT-WPU, King Rudra refuses the marriage, a hooded figure kidnaps the princess, a note says "Solve the three trials and find me." Seven-scene opening cinematic, three trials, an ending, Play Again. Ask the player for their name and their partner's name. Narrate it with ElevenLabs, add music where nobody is talking, and match kaizen.makemepulse.com.
+
+**What happened:** The lead studied Kaizen live (loader, word-by-word underlined captions, painterly brush-stroke scenes, cream and navy UI) and wrote the script so the narrator never says a name, which lets any couple star in it. 14 lines were voiced with ElevenLabs ("Storyteller Mom", eleven_v4). When the API rate-limited, the last 8 lines were generated as one take and split on silence with ffmpeg. Music is a generative Web Audio score that ducks under the voice. Two Opus builders worked in parallel with strict file ownership: one on the cinematic shell and 14 painted SVG scenes, one on the trials. A dynamic workflow of four Opus reviewers then audited and fixed 21 defects.
+
+**Takeaway:** Write narration to survive personalisation. Name-free audio plus named captions gave a custom story without generating audio per player.
+
+---
+
+## 06. Listen to the playtest
+
+**Tool:** Claude Code (Opus 5.5), a two-agent dynamic workflow
+
+**Prompt:**
+> The fonts overlap on a lot of screens. Add more fun, cut the small subtext, make it concise, punny and human. Leave Trials 2 and 3 alone: Tana will add her games there, so make the code ready for that. Make everything user friendly.
+
+**What happened:** The root cause of the overlaps was one line: the marker font had line-height 0.95, so wrapped titles collided. A small in-browser detector then checked every screen at 1024 px and 375 px for overlapping, clipped or tiny text. The trial card lost its duplicate labels and sub-lines. Trial 1 gained confetti, combo chips, a fail shake, forest puns and a new "Blink back" challenge. Trials 2 and 3 became one-file plug-in slots (`src/trials/trial2.tsx`, `trial3.tsx`) with a kit, a template and `TRIALS.md` for Tana.
+
+**Takeaway:** Fix the cause, not the symptom. Then measure every screen instead of eyeballing a few.
+
+---
+
 ## Open items
 
 - [x] Problem statement chosen
 - [x] Read the PDF brief and confirm the must-haves
 - [x] First build step: Level 1 CAPTCHA (6 challenge types, random 4 per run, pass/fail, restart)
-- [ ] Partner: drop levels 2 and 3 into `web/src/app/level/[n]/page.tsx`
+- [ ] Tana: swap her games into `web/src/trials/trial2.tsx` and `trial3.tsx` (see `web/TRIALS.md`)
 - [ ] Point the Vercel project at `web/` and add the Supabase env vars

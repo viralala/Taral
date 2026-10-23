@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* Kaizen-inspired: cream paper + navy ink for UI, painterly night/dusk scenes,
+   brush strokes in violet, coral, lime, leaf, mint, and cherry-blossom pink. */
+:root {
+  --paper: #efead7;
+  --paper-2: #e4dcc0;
+  --navy: #003c74;
+  --ink: #0b1a33;
+  --night: #0b1240;
+  --dusk: #2a1a6e;
+  --violet: #9b5bd4;
+  --peach: #ffb98a;
+  --coral: #f2795a;
+  --rose: #ef3f7a;
+  --blossom: #f6b5c8;
+  --lime: #e8f20a;
+  --leaf: #7cc35a;
+  --mint: #bfe6d9;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-navy: var(--navy);
+  --color-ink: var(--ink);
+  --color-night: var(--night);
+  --color-dusk: var(--dusk);
+  --color-violet: var(--violet);
+  --color-peach: var(--peach);
+  --color-coral: var(--coral);
+  --color-rose: var(--rose);
+  --color-blossom: var(--blossom);
+  --color-lime: var(--lime);
+  --color-leaf: var(--leaf);
+  --color-mint: var(--mint);
+  --font-marker: var(--font-marker);
+  --font-hand: var(--font-hand);
+  --font-sans: var(--font-body);
+}
+
+html, body { background: var(--night); color: var(--paper); }
+body { font-family: var(--font-body), system-ui, sans-serif; overflow-x: hidden; }
+
+/* Big brushy titles (KAIZEN logo feel) */
+/* Permanent Marker has tall ascenders and deep descenders: anything under ~1.15 makes wrapped lines collide. */
+.marker { font-family: var(--font-marker), cursive; letter-spacing: 0.02em; line-height: 1.18; }
+/* Hand-lettered uppercase captions and UI (Kaizen "Salted" feel) */
+.hand { font-family: var(--font-hand), cursive; text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* Underlined hand-drawn link, like Kaizen's active caption word */
+.scribble { background-image: linear-gradient(currentColor, currentColor); background-size: 100% 2px; background-position: 0 100%; background-repeat: no-repeat; padding-bottom: 2px; }
+
+/* Painted button: wobbly blob of colour with navy hand text */
+.btn-paint { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .85rem 1.8rem; font-family: var(--font-hand), cursive; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--navy); background: var(--lime); border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  transition: transform .25s cubic-bezier(.3,1.6,.5,1), background .2s; }
+.btn-paint:hover { transform: rotate(-1.5deg) scale(1.04); }
+.btn-paint:active { transform: scale(.96); }
+.btn-paint:disabled { opacity: .45; pointer-events: none; }
+.btn-ghost { font-family: var(--font-hand), cursive; text-transform: uppercase; letter-spacing: .1em; padding: .6rem 1.2rem;
+  border: 2px solid currentColor; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; transition: transform .2s; }
+.btn-ghost:hover { transform: rotate(1deg) scale(1.03); }
+
+/* Paper card for gameplay, slightly torn feel */
+.paper-card { background: var(--paper); color: var(--navy); border-radius: 22px 30px 18px 26px / 26px 18px 30px 22px;
+  box-shadow: 0 30px 60px -20px rgba(5, 8, 40, .6); }
+
+/* Film grain over everything */
+.grain::after { content: ""; position: fixed; inset: -50%; pointer-events: none; z-index: 60; opacity: .09; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence baseFrequency='.85' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 1s steps(5) infinite; }
+@keyframes grain { 0%{transform:translate(0,0)} 25%{transform:translate(-2%,1%)} 50%{transform:translate(1%,-2%)} 75%{transform:translate(-1%,2%)} 100%{transform:translate(2%,-1%)} }
+
+/* Custom cursor hides the native one on fine pointers */
+@media (pointer: fine) { html.has-cursor, html.has-cursor * { cursor: none !important; } }
+
+/* Shared keyframes for painted scenes */
+@keyframes drift { 0%,100% { transform: translate3d(0,0,0) rotate(0deg); } 50% { transform: translate3d(2%, -3%, 0) rotate(2deg); } }
+@keyframes sway { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+@keyframes petal-fall { 0% { transform: translate3d(0,-10vh,0) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate3d(-18vw,110vh,0) rotate(540deg); opacity: .9; } }
+@keyframes twinkle { 0%,100% { opacity: .2; } 50% { opacity: 1; } }
+@keyframes brush-in { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes kenburns { from { transform: scale(1.04); } to { transform: scale(1.12) translate(-1%, -1%); } }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 18s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Drop decorative motion entirely so looping layers rest at their base style, not a frozen last frame. */
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+}

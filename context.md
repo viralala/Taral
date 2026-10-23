@@ -5,17 +5,25 @@ Read this at the start of every new chat. These are the standing settings for th
 ## Event
 - Puzzle building hackathon, judged on prompt engineering and vibe coding ability.
 - Judges read the repo and AI_LOG.md. The prompts are the product as much as the code.
-- Build window: 4:00 to 6:00 PM. Pick one problem statement and build it in that window.
+- Build window: 4:00 to 6:00 PM.
 
 ## Problem statement
-- Theme: Puzzles. Four statements were revealed at 3:42 PM. The PDF has the full brief and must-haves (not yet shared with the agent).
-- Chosen: 01 Reimagine CAPTCHA ("Prove you're human. Make it fun.").
-- Runner-up: 02 Puzzle Passwords ("Your password must contain a riddle.").
-- Why CAPTCHA: the most demoable and interactive of the four. It gives room for AI-generated puzzles per visitor, and it suits a judge-facing live demo.
+- Theme: Puzzles. Four statements were revealed at 3:42 PM: 01 Reimagine CAPTCHA ("Prove you're human. Make it fun."), 02 Puzzle Passwords ("Your password must contain a riddle."), 03 Puzzle with a Twist ("Take a puzzle everyone knows. Break one rule."), 04 Open Innovation Puzzles ("Any puzzle. Your rules.").
+- Lead statement: 01 Reimagine CAPTCHA, inside an Open Innovation story game of three trials. Tanaya's puzzles bring in statements 02 and 03.
 - Brief: `D:\Study SY\Taral\pixathon-problem-statements.pdf` (local only, not pushed). Confirmed against it.
 - Mission: a playable, CAPTCHA-style challenge a human clears in under 30 seconds, that they enjoy, and that plays with what makes us human. No real security. It is a game about the idea of a CAPTCHA.
 - Must-haves: clear pass/fail feedback; each challenge under 30 s; runs in the browser; restart without reloading; at least 3 challenge types or a random generator.
-- Status: confirmed as the build target. Runner-up Puzzle Passwords is no longer needed.
+
+## Team split
+- Viral: the story frontend in `web/` (Next.js + TypeScript + Supabase) and Trial 1 (CAPTCHA).
+- Tanaya: the puzzles for Trials 2 and 3. The plug-in slots are `web/src/trials/trial2.tsx` and `trial3.tsx` (guide: `web/TRIALS.md`).
+  - Puzzle with a Twist: Cows & Bulls (Wordle with no colours, only bull/cow counts). 4-letter words only, no repeated letters, real words only, 10 attempts. The one colour rule: a guess with 0 bulls and 0 cows turns red and its letters grey out on the keyboard. Players can also cross letters out by hand (notes). Live as Trial 2 (`web/src/trials/cows-bulls/`, `trial2.tsx`). The original prototype is in `hackathon-kit/src/puzzles/cows-bulls/`.
+  - Puzzle Passwords: "The Vault of the Stolen Tiara", live as Trial 3 (`web/src/trials/trial3.tsx`, data in `vault/data.ts`). Challenge 1: 4 clues to accuse Rabbit (suspects Frog, Rabbit, Otter). Challenge 2: a random riddle. The password must contain "rabbit" and the riddle answer, and be at least 12 characters. No timer. "Don't use a real password." is always shown.
+
+## Puzzle contract (for integration)
+- Puzzles must never depend on the hackathon-kit UI (`components/ui`, Tailwind classes, theme tokens). They plug into Viral's `web/` app.
+- Each puzzle has three layers: `logic.js` (plain JS rules), `use<Puzzle>.js` (headless React hook: state and actions, no markup), and `<Puzzle>.jsx` + its own prefixed CSS file (ready-made view, themable through CSS variables).
+- Every puzzle component takes `onSolve(result)` and `onFail(result)` and needs no router, auth or API. In `web/`, the trial file wraps it and maps `onSolve` to `onComplete({ level, passed, total, humanity, timeMs, cleared: true })`.
 
 ## Repo
 - Name: Taral

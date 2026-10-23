@@ -1,9 +1,9 @@
 // Word lists for Cows & Bulls. Everything is filtered at load time:
 // uppercase, A-Z only, exact length, no repeated letters, no duplicates.
 
-import { DICT_4 } from "./dictionary"
+import { DICT_4 } from './dictionary'
 
-const clean = (text: string, length: number) => {
+const clean = (text: string, length: number): Set<string> => {
   const out = new Set<string>()
   for (const raw of text.split(/\s+/)) {
     const w = raw.toUpperCase()
@@ -99,6 +99,6 @@ yowl yuan yule zany zaps zeal zest zeta zinc zing zips zits zoom zoos
 
 const secrets = clean(SECRET_4, 4)
 
-export const SECRETS = [...secrets]
+export const SECRETS: string[] = [...secrets]
 
-export const GUESSES = new Set([...secrets, ...clean(EXTRA_4, 4), ...clean(DICT_4, 4)])
+export const GUESSES: Set<string> = new Set<string>([...secrets, ...clean(EXTRA_4, 4), ...clean(DICT_4, 4)])

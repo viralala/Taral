@@ -7,6 +7,7 @@ import Signup from './pages/auth/Signup'
 import Apply from './pages/Apply'
 import Account from './pages/Account'
 import UiKit from './pages/UiKit'
+import PuzzlePlayground from './pages/PuzzlePlayground'
 import NotFound from './pages/NotFound'
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="apply" element={<Apply />} />
         <Route path="ui" element={<UiKit />} />
+        <Route path="puzzle/:id" element={<PuzzlePlayground />} />
         <Route
           path="account"
           element={

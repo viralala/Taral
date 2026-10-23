@@ -11,26 +11,15 @@ A running record of the prompts, tools and decisions behind the Taral project.
 **Prompt:**
 > Make a repo named Taral, public, kept empty for now. Give Tana-38 collaborator access and link it to Vercel. We are in a puzzle building hackathon judged on prompts and vibe coding, so we need to showcase the repo and AI_LOG.md.
 
-**What happened:** Created the empty public repo, added the collaborator and started the Vercel link. The project context went into a standing `context.md` so every new chat starts with the same rules.
-
-**Takeaway:** Put the rules in a file the agent reads first. Consistency across sessions beats re-explaining.
-
----
-
-## 02. Define the working context
-
-**Tool:** Claude Code
-
-**Prompt:**
 > Use cool AI tools for the hackathon. If you need a connector, ask me. Keep a clean AI_LOG.md with 5 to 6 polished prompts, and refine them each time so the log reads well.
 
-**What happened:** Set the rule that AI_LOG.md holds a small set of polished prompt entries, revised as the project moves.
+**What happened:** Created the empty public repo, added the collaborator and started the Vercel link. The project context went into a standing `context.md` so every new chat starts with the same rules, including this one: AI_LOG.md holds a small, curated set of entries, revised as the project moves.
 
-**Takeaway:** A log is only useful to judges if it is curated, not a raw dump.
+**Takeaway:** Put the rules in a file the agent reads first. Consistency across sessions beats re-explaining, and a log only helps judges if it is curated, not a raw dump.
 
 ---
 
-## 03. Choose the problem statement
+## 02. Choose the problem statement
 
 **Tool:** Claude Code (Claude Haiku 5.5), with a screenshot of the four problem cards
 
@@ -43,7 +32,7 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
-## 04. Plan with Opus, build with a Sonnet squad
+## 03. Plan with Opus, build with a Sonnet squad
 
 **Tool:** Claude Code (Opus 5.5 planner → 3 parallel Sonnet 5.5 agents), Supabase MCP
 
@@ -56,7 +45,7 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
-## 05. Turn it into a fairytale, with a real narrator
+## 04. Turn it into a fairytale, with a real narrator
 
 **Tool:** Claude Code (Opus 5.5 lead, Opus builders), ElevenLabs connector, Kaizen by makemepulse as the visual reference
 
@@ -69,7 +58,7 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
-## 06. Listen to the playtest
+## 05. Listen to the playtest
 
 **Tool:** Claude Code (Opus 5.5), a two-agent dynamic workflow
 
@@ -82,10 +71,34 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
+## 06. Tana's trials: Cows & Bulls and the Vault
+
+**Tool:** Claude Code. Opus planned the work and set the contract. A workflow then ran three Sonnet agents: logic and UI in parallel, then an integration check.
+
+**Prompt:**
+> Puzzle with a Twist: Wordle, but break one rule, so there are no colours. Each guess only gets counts. A bull is a letter in the right place, a cow is a letter in the word but in the wrong place. If the word is TALE and the guess is BATH, that's 1 bull and 1 cow. 3 or 4 letters, no repeated letters, real words only, 10 attempts. It has to drop straight into my teammate's story frontend. I'm short on time, so make it fast.
+
+**What happened:** Before any code was written, Opus fixed a shared contract: the exact `logic.js` exports and component props (`onSolve` and `onFail`). That let two agents build at once without colliding. A third agent ran the tests and the build, and both passed first time. A manual spot check then found real words like "BIG" being rejected, so the guess dictionary was widened from an MIT-licensed English word list, from 310 to 1,172 three-letter words and from 1,466 to 4,311 four-letter words.
+
+**Revision, after the first playtest:**
+> Only 4-letter words. If a guess gets 0 bulls and 0 cows, turn that row red and grey its letters out on the keyboard, like Wordle. Keep tap-to-cross-out. And remember my teammate is building the UI from scratch, so it has to be easy to drop into any UI.
+
+The puzzle was split into three layers: plain JavaScript rules, a headless React hook that holds all game state, and an optional ready-made view with its own `cb-` prefixed CSS, themable through variables. Every dependency on the starter kit was removed. The "red row" is the game's single colour rule. It bends the twist (no colours) just enough to stay fair.
+
+**Second puzzle, Puzzle Passwords:**
+> Build "The Vault of the Stolen Tiara." The player reads 4 gentle clues to work out which animal stole the tiara (Frog, Rabbit or Otter; it's Rabbit), then solves a random riddle. The password must contain both answers and be at least 12 characters, with a live checklist that turns green rule by rule. Always show "Don't use a real password." Keep it wholesome.
+
+The draft asked for a standalone `index.html` in a pixel style. Before any code was written, Claude checked it against Viral's `web/TRIALS.md` and flagged what would not plug in. The standalone file became a React trial component, the pixel look became Viral's storybook kit, and the cat became his CaptchaBot. The win now hands back `onComplete` so the story moves on. Trial 3 runs as two challenges with no timer. A second workflow then ran two Sonnet agents in parallel: one ported Cows & Bulls into Trial 2 in TypeScript, and one built the Vault as Trial 3. A third agent ran the type check, lint and production build, and all three passed. In review, one clue that read oddly was swapped for a friendlier one that points at Rabbit (a half-nibbled carrot).
+
+**Takeaway:** Parallel agents are only fast if the interface is pinned down first. Green tests are not the same as a good game: a human-style spot check caught what the tests missed. And check a prompt against where the code will actually live before building: one review turned a standalone page into a drop-in trial.
+
+---
+
 ## Open items
 
 - [x] Problem statement chosen
 - [x] Read the PDF brief and confirm the must-haves
 - [x] First build step: Level 1 CAPTCHA (6 challenge types, random 4 per run, pass/fail, restart)
-- [ ] Tana: swap her games into `web/src/trials/trial2.tsx` and `trial3.tsx` (see `web/TRIALS.md`)
+- [x] Tana's first puzzle built: Cows & Bulls (`hackathon-kit/src/puzzles/cows-bulls/`)
+- [x] Tana: Trial 2 (Cows & Bulls) and Trial 3 (Vault of the Stolen Tiara) live in `web/src/trials/`
 - [ ] Point the Vercel project at `web/` and add the Supabase env vars

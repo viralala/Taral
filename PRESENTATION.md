@@ -22,7 +22,7 @@
 
 > "We chose problem statement 01, Reimagine CAPTCHA. The brief asks for a playable challenge a human can clear in under 30 seconds, that they enjoy, and that plays with what makes us human. And the must-haves are: clear pass or fail, under 30 seconds per challenge, runs in the browser, restart without reloading, and at least three challenge types."
 
-> "We hit all five. We have 17 challenge types, and every trial deals three random ones, so no two runs are the same."
+> "We hit all five. We have 13 challenge types, Trials 1 and 3 deal three random ones each, and Trial 2 picks a fresh secret word every time, so no two runs are the same."
 
 ## 3. Live demo (1:00 to 3:15)
 
@@ -44,7 +44,7 @@
 
 **[DO]** Hand over to Tana for Trial 2, or jump to `/level/2`.
 
-> **Tana:** "Trial 2 is the Bridge of Insight. These are riddles and reasoning. My favourite is the troll's toll, where you have to type a sentence with a few typos, because the troll only trusts imperfect people. Perfection is suspicious."
+> **Tana:** "Trial 2 is the Bridge of Insight, and it's my game: Cows and Bulls. There's a secret four-letter word. A bull means a right letter in the right spot, a cow means a right letter in the wrong spot. It's Wordle with no colours, so you have to actually think. You get ten tries."
 
 **[DO]** Jump to Trial 3 via `/level/3`, or keep playing. Show the peephole QR and scan it with your phone.
 
@@ -76,7 +76,7 @@
 
 > "Under the hood: Next.js and React with TypeScript and Tailwind, Framer Motion for animation, Supabase for the leaderboard, and Vercel for hosting. Every painted scene is SVG drawn in code. There's no backend of our own, and the trials are plug-in files so a new game is one file."
 
-> "To recap: a CAPTCHA game with 17 challenge types, a narrated fairytale that stars the player, a live leaderboard, and a documented AI workflow you can read start to finish."
+> "To recap: a CAPTCHA game with 13 challenge types, a narrated fairytale that stars the player, a live leaderboard, and a documented AI workflow you can read start to finish."
 
 > "Taral asks one thing of you: stay weird. Robots can't. Thank you."
 
@@ -90,7 +90,7 @@
 | How do you stop cheating the leaderboard? | We don't, since there is nothing to protect. Row-level security limits the table to anonymous reads and inserts, and column checks cap name length and score range. |
 | Why a story? | A puzzle is more fun when you care why you're solving it. The story is the reason for the puzzles. |
 | What would you build next? | AI-generated puzzles per visitor, and more trials from other players. |
-| How did you split the work? | Viral did the concept, Trial 1, the story shell and frontend. Tana owns Trials 2 and 3. Each trial is its own file. |
+| How did you split the work? | Viral did the concept, Trial 1, the story shell and frontend. Tana built Trial 2, Cows and Bulls. Each trial is its own file. |
 
 ## If something goes wrong
 

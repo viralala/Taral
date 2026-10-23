@@ -38,7 +38,7 @@ The prompts, tools and decisions behind **Taral: The Three Trials**, in the orde
 
 **What happened:** It picked **01, Reimagine CAPTCHA** and gave its reasoning: it is the easiest to play in front of a judge, and it has the most room for surprise. Puzzle Passwords was the runner-up. We then read the PDF brief ourselves and confirmed the must-haves: clear pass or fail, under 30 seconds per challenge, runs in the browser, restart without reloading, and at least three challenge types.
 
-**What we learned:** We tested the idea with one question, "can a judge play this in 30 seconds?", and then checked it against the brief before building anything. Puzzle Passwords was not wasted: its riddle-and-password idea became the Bridge of Insight trial.
+**What we learned:** We tested the idea with one question, "can a judge play this in 30 seconds?", and then checked it against the brief before building anything. Puzzle Passwords stayed useful as inspiration for the riddle and password ideas we prototyped for the bridge.
 
 ---
 
@@ -100,4 +100,5 @@ The prompts, tools and decisions behind **Taral: The Three Trials**, in the orde
 - [x] Level 1 CAPTCHA game, then the full three-trial story with narration and music
 - [x] Live leaderboard on Supabase
 - [x] Playtest fixes and a repo clean-up
-- [ ] Tana swaps her own games into `web/src/trials/trial2.tsx` and `trial3.tsx` if she wants to (the shared engine already plays full Trials 2 and 3)
+- [x] Tana's Cows & Bulls is live as Trial 2
+- [ ] Tana swaps her own game into `web/src/trials/trial3.tsx` if she wants to (the shared engine already plays a full Trial 3). Trial 2 is already Tana's Cows & Bulls.

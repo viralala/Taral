@@ -3,10 +3,9 @@
 A **trial** is one mini-game in the story. The player goes:
 cinematic → Trial 1 → clue → Trial 2 → clue → Trial 3 → ending.
 
-Trial 1 is Viral's. Trials 2 and 3 are Tana's. All three currently run on the shared
-`LevelGame` engine (riddles and ciphers for Trial 2, locks and a final key for Trial 3),
-so the story works end to end. Any trial can be swapped for a custom game without
-touching the rest of the app.
+Trial 1 is Viral's. **Trial 2 is Tana's Cows & Bulls** (`src/trials/cows-bulls/`, wired in
+`trial2.tsx`). Trial 3 runs on the shared `LevelGame` engine (locks and a final key) so the story
+works end to end, and can be swapped for a custom game without touching the rest of the app.
 
 ## The swap: 3 steps
 

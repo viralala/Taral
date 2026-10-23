@@ -35,7 +35,7 @@ The player types **their own name and their partner's name**, and the tale stars
 | --- | --- | --- |
 | **Intro** | Seven narrated, painted scenes. Names are typed in once and woven into the captions. | Cinematic with word-by-word captions |
 | **Trial 1: Forest of Clues** | The trees watch you back. | Observation puzzles, 7 challenge types |
-| **Trial 2: Bridge of Insight** | Every plank is a riddle. | Riddles and reasoning, 5 challenge types |
+| **Trial 2: Bridge of Insight** | Every plank is a riddle. | Cows & Bulls, a four-letter word deduction game |
 | **Trial 3: Final Challenge** | A tower door that asks one question: are you human? | Memory, clues and honesty, 5 challenge types |
 | **Ending** | Rescue, the reveal, the king's blessing, the reunion. | Cinematic, then a score screen and **Play Again** |
 
@@ -43,15 +43,15 @@ The player types **their own name and their partner's name**, and the tale stars
 
 ## The puzzles
 
-Each trial draws **3 random challenges** from its pool. Pass 2 of 3 to clear it, and fail without ever reloading the page: a new draw is dealt instead. Every challenge has a visible timer of **30 seconds or less**, an instant PASS or FAIL stamp, and a one-liner from the hooded voice.
+Trials 1 and 3 draw **3 random challenges** from their pool. Pass 2 of 3 to clear the trial, and if you fail, a new draw is dealt without reloading the page. Those challenges have a visible timer of **30 seconds or less**, an instant PASS or FAIL stamp, and a one-liner from the hooded voice. Trial 2 is a single deduction game with its own rules (below).
 
 | Trial | Challenges |
 | --- | --- |
 | **1 · Forest of Clues** | Squares with secrets (with a traffic-light trap) · Draw the moon, freehand · Catch the runaway firefly checkbox · Hold your breath for exactly 3 seconds · Spot the odd one · The pattern path · Blink back |
-| **2 · Bridge of Insight** | The riddle plank · The password riddler (live rules, one of them a riddle) · The cipher plank (Caesar shift) · Odd logic (find the lying sign) · The troll's toll (type a sentence *with* typos, because perfection is suspicious) |
+| **2 · Bridge of Insight** | **Cows & Bulls**, Tana's "Wordle with no colours". Guess the secret four-letter word in 10 tries. A bull is a right letter in the right spot, a cow is a right letter in the wrong spot, and a guess that scores 0 and 0 turns red. A fresh secret word is picked every run, and the more tries you need, the more human you look, so the humanity score never drops below 40. |
 | **3 · Final Challenge** | The memory lock · The clue lock (uses the three clues you earned) · The peephole (scan a QR on your phone, then tell the truth) · "Are you human?" (pick the most human reply) · The final key (hold for exactly 3 seconds) |
 
-That is **17 challenge types** and thousands of possible runs, so no two playthroughs match.
+That is **13 challenge types** across the story, plus a random secret word in Trial 2, so no two playthroughs match.
 
 Each run is scored on a **humanity percentage**, then saved to a live leaderboard.
 
@@ -92,7 +92,7 @@ This project was built *with* AI at every step, and the full prompt history live
 │               loader → names → intro → [trial 1 → 2 → 3] → ending → score             │
 │                 │            │                    │                  │                │
 │            story.ts     Scene.tsx            LevelGame.tsx       Cards.tsx            │
-│            (script)   (14 SVG paintings)   (17 challenges)    (score + save)          │
+│            (script)   (14 SVG paintings)   (Trials 1, 3)    (score + save)          │
 │                 │                                                      │              │
 │            audio.ts ── ElevenLabs mp3 narration + Web Audio music + sfx│              │
 │                                                                        ▼              │
@@ -151,10 +151,10 @@ One table, `runs`, with row-level security that allows anonymous `select` and `i
 | Requirement | How Taral meets it |
 | --- | --- |
 | Clear pass or fail feedback | A big PASS or FAIL stamp, a sound, and a quip after every challenge |
-| Each challenge under 30 seconds | Every challenge carries a visible timer of 30 s or less |
+| Each challenge under 30 seconds | Trial 1 and 3 challenges carry a visible timer of 30 s or less. Trial 2 is bounded by 10 guesses instead of a clock |
 | Runs in the browser | Next.js on Vercel, nothing to install |
 | Restart without reloading | A failed trial redeals new challenges, and **Play Again** resets the story |
-| At least 3 challenge types or a random generator | 17 challenge types, randomly drawn 3 per trial |
+| At least 3 challenge types or a random generator | 13 challenge types drawn at random in Trials 1 and 3, and a random secret word in Trial 2 |
 
 ---
 
@@ -171,9 +171,9 @@ Taral/
         ├── app/           routes: /, /level/[n], /leaderboard
         ├── components/
         │   ├── story/     loader, names, captions, painted scenes, chapter cards
-        │   ├── game/      challenge engine and all 17 challenges
+        │   ├── game/      challenge engine, Trial 1 and Trial 3 challenges
         │   └── fun/       nav, footer, backdrop, rick-roll QR
-        ├── trials/        one plug-in file per trial
+        ├── trials/        one plug-in file per trial, plus cows-bulls/ for Trial 2
         └── lib/           story script, audio engine, player, Supabase client
 ```
 
@@ -184,7 +184,7 @@ Taral/
 | | |
 | --- | --- |
 | **Viral** | Concept, Trial 1, the story shell and frontend, prompting and AI direction |
-| **Tana** | Trials 2 and 3 |
+| **Tana** | Trial 2 (Cows & Bulls) and the Trial 3 slot |
 
 <div align="center">
 

@@ -5,14 +5,22 @@ Read this at the start of every new chat. These are the standing settings for th
 ## Event
 - Puzzle building hackathon, judged on prompt engineering and vibe coding ability.
 - Judges read the repo and AI_LOG.md. The prompts are the product as much as the code.
-- Problem statement: not yet provided. The user will paste it later. When it arrives, save it here under "Problem statement".
+- Build window: 4:00 to 6:00 PM. Pick one problem statement and build it in that window.
+
+## Problem statement
+- Theme: Puzzles. Four statements were revealed at 3:42 PM. The PDF has the full brief and must-haves (not yet shared with the agent).
+- Chosen: 01 Reimagine CAPTCHA ("Prove you're human. Make it fun.").
+- Runner-up: 02 Puzzle Passwords ("Your password must contain a riddle.").
+- Why CAPTCHA: the most demoable and interactive of the four. It gives room for AI-generated puzzles per visitor, and it suits a judge-facing live demo.
+- Open: confirm against the PDF brief before building. If the brief's must-haves rule it out, switch to the runner-up.
 
 ## Repo
 - Name: Taral
 - Visibility: public
-- Collaborator: Tana-38 (write access)
-- Linked to Vercel.
-- Kept empty of app code. The only tracked file is AI_LOG.md. Do not commit hackathon-kit/ or other local folders.
+- Collaborator: Tana-38 (write access, invite pending acceptance)
+- Linked to Vercel project `taral` (main branch, auto-deploys on push).
+- Pushed: context.md, AI_LOG.md, Inspiration/, hackathon-kit/ (Vite source, no node_modules or dist).
+- Not pushed: the root `.claude/` folder.
 - The user will ask for a rename later. Change the GitHub repo name, the local folder reference and the Vercel project together.
 
 ## AI_LOG.md rules

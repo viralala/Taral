@@ -69,7 +69,21 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
+## 06. Choose the problem statement
+
+**Tool:** Claude Code (Claude Haiku 5.5), with a screenshot of the four problem cards
+
+**Prompt:**
+> Here are the four problem statements. Choose the best one and make it unimaginably fun, advanced and polished.
+
+**What happened:** Chose 01, Reimagine CAPTCHA. It is the most interactive of the four and the easiest to demo live. Puzzle Passwords is the runner-up. The PDF brief has not been read yet, so the choice is provisional.
+
+**Takeaway:** A strong pick comes from the demo test: can a judge play with it in 30 seconds? Check the brief before committing.
+
+---
+
 ## Open items
 
-- [ ] Problem statement (waiting on the user)
-- [ ] First build step after the statement is in
+- [x] Problem statement chosen (provisional, pending the PDF brief)
+- [ ] Read the PDF brief and confirm the must-haves
+- [ ] First build step (CAPTCHA: puzzle generation and verification)

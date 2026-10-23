@@ -37,12 +37,14 @@ function Castle() {
         win(626, 540, 12, 24, 1.2), win(960, 540, 12, 24, 2.1, C.lime), win(543, 600, 10, 18, 0.4), win(1047, 600, 10, 18, 1.6),
         win(626, 610, 12, 20, 2.6), win(960, 612, 12, 20, 0.8)]}
       {/* PIXATHON pennant flying from the dome */}
+      <g transform="translate(0 70) translate(806 300) scale(.8) translate(-806 -300)">
       <g style={anim("sway 5s ease-in-out infinite", "left center")}>
         <path d="M806 300 C860 288 920 318 1000 300 C1030 294 1050 300 1064 306 L1040 330 L1064 356 C1040 346 1020 344 1000 348 C920 366 860 336 806 350 Z"
           fill={C.lime} filter={F.paint} />
         <text x="925" y="337" textAnchor="middle" fontSize="30" fill={C.navy} className="marker" transform="rotate(-2 925 330)">PIXATHON</text>
       </g>
-      <rect x="798" y="296" width="5" height="110" fill={castle} />
+      </g>
+      <rect x="798" y="358" width="5" height="52" fill={castle} />
     </g>
   );
 }
@@ -125,10 +127,10 @@ export function meet(): ArtDef {
         depth: 0.55, node: (
           <>
             <path d="M0 830 C300 790 600 800 900 790 C1200 780 1400 800 1600 790 L1600 1000 L0 1000 Z" fill="#5b2f86" filter={F.paint} />
-            <CherryTree x={980} y={812} s={1.05} seed={31} glow />
+            <CherryTree x={1060} y={812} s={0.85} seed={31} glow />
             <ellipse cx="745" cy="812" rx="140" ry="14" fill={C.ink} opacity=".35" filter={F.haze} />
-            <Figure x={690} y={812} s={2.3} kind="prince" lean={3} rim={C.blossom} />
-            <Figure x={805} y={812} s={2.2} kind="gown" flip lean={-3} rim={C.blossom} />
+            <Figure x={712} y={812} s={2.3} kind="prince" lean={3} rim={C.blossom} />
+            <Figure x={800} y={812} s={2.2} kind="gown" flip lean={-3} rim={C.blossom} />
             <circle cx="748" cy="590" r="10" fill={C.lime} filter={F.glow} style={anim("tp-pulse 2.4s ease-in-out infinite")} />
           </>
         ),
@@ -250,10 +252,10 @@ export function taken(): ArtDef {
             {/* stolen-away ribbon */}
             <Stroke d="M820 600 C760 580 700 610 640 590 C600 578 560 590 520 600" color={C.rose} w={10} o={0.85} />
             <g transform="translate(862 840)">
-              <Figure x={0} y={0} s={2.7} kind="hood" fill="#05061a" lean={10} rim="#2a3070" />
+              <Figure x={0} y={0} s={2.7} kind="hood" tone={0.9} lean={10} rim="#2a3070" />
               {/* carried figure draped over the shoulder */}
               <g transform="translate(-6 -228) rotate(-78)">
-                <Figure x={0} y={0} s={1.7} kind="gown" fill="#141a48" />
+                <Figure x={0} y={0} s={1.7} kind="gown" tone={0.55} />
               </g>
             </g>
             {/* dropped blossom */}
@@ -366,8 +368,8 @@ export function glimpse(): ArtDef {
             <ellipse cx="800" cy="600" rx="260" ry="300" fill={C.blossom} opacity=".35" filter={F.soft} />
             <g filter={F.haze}>
               <path d="M0 860 C400 830 1200 830 1600 860 L1600 1000 L0 1000 Z" fill="#4a2380" />
-              <Figure x={770} y={850} s={2.7} kind="prince" fill="#1a0f40" lean={7} rim={C.blossom} />
-              <Figure x={838} y={850} s={2.6} kind="gown" fill="#1a0f40" flip lean={-7} rim={C.blossom} />
+              <Figure x={770} y={850} s={2.7} kind="prince" lean={7} rim={C.blossom} />
+              <Figure x={838} y={850} s={2.6} kind="gown" flip lean={-7} rim={C.blossom} />
             </g>
           </>
         ),

@@ -34,8 +34,8 @@ export function rescue(): ArtDef {
               <path d="M560 440 L560 890" stroke="#3a1a18" strokeWidth="10" />
             </g>
             {/* silhouettes reunited in the doorway */}
-            <Figure x={772} y={858} s={2.5} kind="prince" fill="#2a1a3a" lean={6} rim={C.peach} />
-            <Figure x={834} y={858} s={2.4} kind="gown" fill="#2a1a3a" flip lean={-6} rim={C.peach} />
+            <Figure x={772} y={858} s={2.5} kind="prince" lean={6} rim={C.peach} />
+            <Figure x={834} y={858} s={2.4} kind="gown" flip lean={-6} rim={C.peach} />
             <Motes n={30} seed={112} />
           </>
         ),
@@ -180,15 +180,15 @@ export function blessing(): ArtDef {
             <ellipse cx="800" cy="842" rx="320" ry="16" fill="#5a1a3a" opacity=".3" filter={F.haze} />
             {/* the king bows, offering his crown */}
             <g>
-              <Figure x={620} y={842} s={2.7} kind="king" fill="#3a1238" lean={16} rim={C.paper} />
-              <path d="M650 640 C690 640 720 650 742 668" stroke="#3a1238" strokeWidth="20" fill="none" strokeLinecap="round" filter={F.paint} />
+              <Figure x={620} y={842} s={2.7} kind="king" lean={16} rim={C.paper} />
+              <path d="M650 640 C690 640 720 650 742 668" stroke="#b3262f" strokeWidth="20" fill="none" strokeLinecap="round" filter={F.paint} />
               <g transform="translate(758 650)" style={anim("tp-bob 3s ease-in-out infinite")}>
                 <circle r="44" fill={C.lime} opacity=".35" filter={F.soft} />
                 <path d="M-24 10 L-28 -14 L-14 -4 L-7 -22 L0 -6 L7 -22 L14 -4 L28 -14 L24 10 Z" fill={C.lime} filter={F.glow} />
               </g>
             </g>
-            <Figure x={920} y={842} s={2.3} kind="prince" fill="#3a1238" flip lean={-4} rim={C.paper} />
-            <Figure x={985} y={842} s={2.2} kind="gown" fill="#3a1238" flip lean={-6} rim={C.paper} />
+            <Figure x={920} y={842} s={2.3} kind="prince" flip lean={-4} rim={C.paper} />
+            <Figure x={985} y={842} s={2.2} kind="gown" flip lean={-6} rim={C.paper} />
           </>
         ),
       },
@@ -235,8 +235,8 @@ export function reunion(): ArtDef {
             <path d="M0 860 C300 820 560 790 820 790 C1100 790 1340 830 1600 850 L1600 1000 L0 1000 Z" fill="#a14d8a" filter={F.paint} />
             <CherryTree x={600} y={830} s={1.1} seed={141} glow />
             <ellipse cx="868" cy="796" rx="110" ry="12" fill="#5a1a4a" opacity=".3" filter={F.haze} />
-            <Figure x={842} y={796} s={2.4} kind="prince" fill="#3a1238" lean={8} rim={C.peach} />
-            <Figure x={898} y={796} s={2.3} kind="gown" fill="#3a1238" flip lean={-8} rim={C.peach} />
+            <Figure x={842} y={796} s={2.4} kind="prince" lean={8} rim={C.peach} />
+            <Figure x={898} y={796} s={2.3} kind="gown" flip lean={-8} rim={C.peach} />
             <Mist y={860} color={C.paper} o={0.25} h={40} />
           </>
         ),

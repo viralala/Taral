@@ -94,6 +94,19 @@ The prompts, tools and decisions behind **Taral: The Three Trials**, in the orde
 
 ---
 
+## 07. Fix the opening screen and give the characters faces
+
+**Tool:** Claude Code (Sonnet 5.5), with Playwright screenshots to check every change
+
+**Prompt:**
+> The MIT-WPU title is overlapping with the Pixathon flag, so fix the storyline screen. Also the figures are faceless and just black. Add proper figures and make it look a bit nicer.
+
+**What happened:** The overlap came from the big title card sitting right on top of the Pixathon pennant, so the pennant was shortened and moved lower on the castle. The couple's title card was also too long and ran into the cherry tree, so it now shows just their names ("Viral & Asha") and the tree was shrunk and moved aside. The black silhouettes were replaced with coloured storybook characters: a prince in a blue tunic and red cape, a princess in a pink gown, King Rudra in crimson robes with an ermine collar and a crown, and the hooded figure with glowing eyes and tiny traffic lights stitched on the cloak. Night scenes dim the colours so they still fit the mood. We checked the result in screenshots at 1280 px and 390 px wide.
+
+**What we learned:** Look at the actual screen before and after. The title overlaps were only obvious in a real render.
+
+---
+
 ## Where we are
 
 - [x] Problem statement chosen and checked against the brief

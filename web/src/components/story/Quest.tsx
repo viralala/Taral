@@ -165,7 +165,7 @@ export default function Quest() {
           <AnimatePresence mode="wait">
             {narrated.line.title && phase.k !== "levelIntro" && (
               <motion.div key={narrated.line.id} exit={{ opacity: 0, transition: { duration: 0.4 } }}>
-                <TitleCard title={fill(narrated.line.title, hero, love)} />
+                <TitleCard title={fill(narrated.line.title, player.hero.trim() || "the hero", player.love.trim() || "their beloved")} />
               </motion.div>
             )}
           </AnimatePresence>

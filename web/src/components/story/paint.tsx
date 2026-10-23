@@ -143,52 +143,135 @@ export function CherryTree({ x, y, s = 1, seed = 4, colors = [C.blossom, C.rose,
 
 export type FigureKind = "gown" | "prince" | "hood" | "king" | "child";
 
+const SKIN = "#f0b88f";
+const GOLD = "#f2c94c";
+const EYE = "#2b1a1f";
+
+/** A friendly little face: dot eyes, blush, smile (or a stern frown with angled brows for the king). */
+function Face({ y, r = 8.5, stern = false }: { y: number; r?: number; stern?: boolean }) {
+  const ex = r * 0.38;
+  return (
+    <g stroke="none">
+      <circle cx={-ex} cy={y} r="1.25" fill={EYE} />
+      <circle cx={ex} cy={y} r="1.25" fill={EYE} />
+      <circle cx={-r * 0.62} cy={y + 3.4} r="1.9" fill="#f28b8b" opacity=".55" />
+      <circle cx={r * 0.62} cy={y + 3.4} r="1.9" fill="#f28b8b" opacity=".55" />
+      {stern ? (
+        <>
+          <path d={`M${-ex - 2.4} ${y - 3.4} L${-ex + 1.6} ${y - 2}`} stroke={EYE} strokeWidth="1.1" strokeLinecap="round" />
+          <path d={`M${ex + 2.4} ${y - 3.4} L${ex - 1.6} ${y - 2}`} stroke={EYE} strokeWidth="1.1" strokeLinecap="round" />
+          <path d={`M-2.4 ${y + 5.2} Q0 ${y + 3.6} 2.4 ${y + 5.2}`} stroke="#7a3030" strokeWidth="1" fill="none" strokeLinecap="round" />
+        </>
+      ) : (
+        <path d={`M-2.6 ${y + 3.6} Q0 ${y + 6.4} 2.6 ${y + 3.6}`} stroke="#8a3b3b" strokeWidth="1" fill="none" strokeLinecap="round" />
+      )}
+    </g>
+  );
+}
+
 /**
- * Elegant faceless silhouette, 100 units tall at scale 1, standing on (x, y).
- * `lean` tilts toward the partner, `flip` mirrors.
+ * Storybook character, 100 units tall at scale 1, standing on (x, y).
+ * Coloured clothes, faces and hair. `tone` dims them for night scenes (1 = full colour),
+ * `rim` adds a soft coloured edge light, `lean` tilts toward the partner, `flip` mirrors.
  */
-export function Figure({ x, y, s = 1, kind, fill = C.ink, flip = false, lean = 0, rim }: {
-  x: number; y: number; s?: number; kind: FigureKind; fill?: string; flip?: boolean; lean?: number; rim?: string;
+export function Figure({ x, y, s = 1, kind, tone = 1, flip = false, lean = 0, rim }: {
+  x: number; y: number; s?: number; kind: FigureKind; tone?: number; flip?: boolean; lean?: number; rim?: string;
 }) {
   const body: Record<FigureKind, ReactNode> = {
-    gown: (
-      <>
-        <circle cx="0" cy="-89" r="8.5" />
-        <path d="M-3 -82 L3 -82 L5 -76 C9 -74 10 -66 8 -56 L7 -50 C14 -36 22 -16 28 0 L-28 0 C-22 -16 -14 -36 -7 -50 L-8 -56 C-10 -66 -9 -74 -5 -76 Z" />
-        <path d="M6 -74 C14 -66 16 -56 14 -46" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" />
-        <path d="M-6 -95 C-14 -96 -16 -80 -12 -66 C-10 -76 -8 -86 -4 -90 Z" />
-      </>
-    ),
     prince: (
       <>
-        <circle cx="0" cy="-89" r="8.5" />
-        <path d="M-4 -81 L4 -81 L9 -76 L11 -48 L8 -44 L8 0 L2 0 L0 -36 L-2 0 L-8 0 L-8 -44 L-11 -48 L-9 -76 Z" />
-        <path d="M-9 -78 C-16 -60 -22 -30 -26 -6 L-6 -10 Z" opacity=".85" />
-        <path d="M9 -74 C14 -64 15 -56 13 -48" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" />
+        {/* red cape */}
+        <path d="M-9 -78 C-19 -60 -25 -28 -29 -2 L-5 -8 L5 -8 L29 -2 C25 -28 19 -60 9 -78 Z" fill="#c63a4a" />
+        {/* legs + boots */}
+        <path d="M-8 -46 L-1 -46 L-1 -6 L-8 -6 Z M1 -46 L8 -46 L8 -6 L1 -6 Z" fill="#2c2f66" />
+        <path d="M-9 -7 L0 -7 L0 0 L-10 0 Z M0 -7 L9 -7 L10 0 L0 0 Z" fill="#3b2418" />
+        {/* tunic */}
+        <path d="M-9 -80 L9 -80 L13 -44 L-13 -44 Z" fill="#2f5fd0" />
+        <path d="M-13 -52 H13 V-48.5 H-13 Z" fill={GOLD} />
+        <path d="M-4 -80 L0 -72 L4 -80" stroke={GOLD} strokeWidth="2" fill="none" strokeLinejoin="round" />
+        <circle cx="0" cy="-66" r="1.4" fill={GOLD} />
+        <circle cx="0" cy="-59" r="1.4" fill={GOLD} />
+        {/* sleeves + hands */}
+        <path d="M-9 -78 L-16 -50 L-11 -48 L-6 -70 Z M9 -78 L16 -50 L11 -48 L6 -70 Z" fill="#2a54bd" />
+        <circle cx="-13.5" cy="-46.5" r="3" fill={SKIN} stroke="none" />
+        <circle cx="13.5" cy="-46.5" r="3" fill={SKIN} stroke="none" />
+        {/* neck, head, hair, circlet */}
+        <rect x="-3" y="-83" width="6" height="5" fill="#e2a27a" stroke="none" />
+        <circle cx="0" cy="-89" r="8.5" fill={SKIN} />
+        <path d="M-9.2 -88 C-11.5 -101 11.5 -101 9.2 -88 C6 -94 -2 -95 -9.2 -88 Z" fill="#3a2418" />
+        <path d="M-8 -93.5 Q0 -97 8 -93.5" stroke={GOLD} strokeWidth="1.8" fill="none" strokeLinecap="round" />
+        <Face y={-88.5} />
       </>
     ),
-    hood: (
-      <path d="M0 -104 C-10 -104 -16 -96 -17 -84 C-18 -76 -15 -72 -13 -70 C-19 -50 -26 -22 -30 0 L30 0 C26 -22 19 -50 13 -70 C15 -72 18 -78 17 -86 C15 -98 8 -104 0 -104 Z M-2 -96 C5 -96 9 -90 9 -82 C9 -78 6 -76 0 -76 C-5 -76 -8 -79 -8 -84 C-8 -91 -6 -96 -2 -96 Z" fillRule="evenodd" />
+    gown: (
+      <>
+        {/* long hair behind */}
+        <path d="M-10 -90 C-17 -101 17 -101 10 -90 C15 -76 15 -62 11 -52 L-11 -52 C-15 -62 -15 -76 -10 -90 Z" fill="#4a2230" />
+        {/* skirt */}
+        <path d="M-6 -64 L6 -64 L8 -52 C16 -36 24 -16 31 0 L-31 0 C-24 -16 -16 -36 -8 -52 Z" fill="#f07aa8" />
+        <path d="M-2 -52 C4 -36 10 -16 14 0 L24 0 C18 -16 10 -36 6 -52 Z" fill="#f9a8c6" opacity=".6" stroke="none" />
+        <path d="M-31 -1.5 Q0 5 31 -1.5" stroke="#ffe3ef" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+        {/* bodice + sash */}
+        <path d="M-6.5 -80 L6.5 -80 L8 -60 L-8 -60 Z" fill="#fbd0e0" />
+        <path d="M-8 -61 H8 V-57 H-8 Z" fill="#9b5bd4" />
+        {/* arms */}
+        <path d="M-6 -78 L-13 -56 L-9.5 -55 L-4 -70 Z M6 -78 L13 -56 L9.5 -55 L4 -70 Z" fill={SKIN} />
+        {/* neck, head, bangs, tiara */}
+        <rect x="-2.8" y="-83" width="5.6" height="5" fill="#e2a27a" stroke="none" />
+        <circle cx="0" cy="-89" r="8.5" fill={SKIN} />
+        <path d="M-9.2 -88 C-11 -101 11 -101 9.2 -88 C4 -92 -3 -93 -9.2 -88 Z" fill="#4a2230" />
+        <path d="M-4.5 -96.5 L0 -103 L4.5 -96.5 Z" fill={GOLD} />
+        <Face y={-88} />
+      </>
     ),
     king: (
       <>
-        <path d="M-10 -104 L-10 -94 L10 -94 L10 -104 L6 -99 L3 -106 L0 -99 L-3 -106 L-6 -99 Z" fill={C.lime} />
-        <circle cx="0" cy="-86" r="9" />
-        <path d="M-6 -78 L6 -78 C16 -74 20 -60 22 -44 C26 -26 32 -10 36 0 L-36 0 C-32 -10 -26 -26 -22 -44 C-20 -60 -16 -74 -6 -78 Z" />
-        <path d="M-6 -78 C-3 -66 3 -66 6 -78" stroke={C.paper} strokeWidth="2" fill="none" opacity=".5" />
+        {/* crimson robe with ermine collar */}
+        <path d="M-6 -78 L6 -78 C16 -74 20 -60 22 -44 C26 -26 32 -10 36 0 L-36 0 C-32 -10 -26 -26 -22 -44 C-20 -60 -16 -74 -6 -78 Z" fill="#b3262f" />
+        <path d="M-3 -76 L-4.5 0 M3 -76 L4.5 0" stroke={GOLD} strokeWidth="2.2" fill="none" />
+        <path d="M-22 -50 H22 V-45.5 H-22 Z" fill={GOLD} />
+        <path d="M-18 -75 C-8 -66 8 -66 18 -75 L21 -66 C9 -55 -9 -55 -21 -66 Z" fill="#f6f1e6" />
+        {[[-12, -66], [-5, -62], [4, -62], [12, -66]].map(([cx, cy]) => <circle key={cx} cx={cx} cy={cy} r="1.1" fill="#1d1030" stroke="none" />)}
+        {/* hands */}
+        <circle cx="-21" cy="-44" r="3.4" fill={SKIN} stroke="none" />
+        <circle cx="21" cy="-44" r="3.4" fill={SKIN} stroke="none" />
+        {/* head, hair, beard, crown */}
+        <path d="M-10 -88 C-12 -78 -8 -72 0 -72 C8 -72 12 -78 10 -88 C6 -80 -6 -80 -10 -88 Z" fill="#d9d9de" />
+        <circle cx="0" cy="-86" r="9" fill={SKIN} />
+        <path d="M-9.5 -85 C-11 -70 11 -70 9.5 -85 C6 -76 -6 -76 -9.5 -85 Z" fill="#e6e6ec" />
+        <path d="M-9.4 -90 C-11 -94 -9 -96 -7 -95 M9.4 -90 C11 -94 9 -96 7 -95" stroke="#d9d9de" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+        <path d="M-10.5 -93 L-10.5 -105 L-5.2 -99.5 L0 -107 L5.2 -99.5 L10.5 -105 L10.5 -93 Z" fill={GOLD} />
+        <circle cx="0" cy="-97" r="1.5" fill="#ef3f7a" stroke="none" />
+        <Face y={-86.5} r={9} stern />
+      </>
+    ),
+    hood: (
+      <>
+        <path d="M0 -104 C-10 -104 -16 -96 -17 -84 C-18 -76 -15 -72 -13 -70 C-19 -50 -26 -22 -30 0 L30 0 C26 -22 19 -50 13 -70 C15 -72 18 -78 17 -86 C15 -98 8 -104 0 -104 Z" fill="#1b1448" />
+        <path d="M-2 -96 C5 -96 9 -90 9 -82 C9 -78 6 -76 0 -76 C-5 -76 -8 -79 -8 -84 C-8 -91 -6 -96 -2 -96 Z" fill="#05061a" stroke="none" />
+        {/* glowing eyes */}
+        <ellipse cx="-3" cy="-86" rx="1.9" ry="2.6" fill={C.lime} stroke="none" filter={F.glow} />
+        <ellipse cx="3.5" cy="-86" rx="1.9" ry="2.6" fill={C.lime} stroke="none" filter={F.glow} />
+        {/* tiny traffic lights stitched on the hem: the clue from the bridge */}
+        <rect x="-5" y="-22" width="10" height="24" rx="3" fill="#0f0b2e" stroke="none" />
+        <circle cx="0" cy="-16" r="2.3" fill="#ef3f3f" stroke="none" />
+        <circle cx="0" cy="-9" r="2.3" fill="#f2c94c" stroke="none" />
+        <circle cx="0" cy="-2.6" r="2.3" fill="#4cd37b" stroke="none" />
+        <path d="M-8 -70 C-4 -64 4 -64 8 -70" stroke="#3a2f8a" strokeWidth="2" fill="none" strokeLinecap="round" />
       </>
     ),
     child: (
       <>
-        <circle cx="0" cy="-60" r="7" />
-        <path d="M-4 -54 L4 -54 L10 -26 L6 0 L-6 0 L-10 -26 Z" />
+        <path d="M-4 -54 L4 -54 L10 -26 L6 0 L-6 0 L-10 -26 Z" fill="#f2795a" />
+        <circle cx="0" cy="-60" r="7" fill={SKIN} />
+        <Face y={-59.5} r={7} />
       </>
     ),
   };
   const t = `translate(${x} ${y}) scale(${(flip ? -1 : 1) * s} ${s}) rotate(${lean})`;
+  const filter = [tone < 1 ? `brightness(${tone})` : "", rim ? `drop-shadow(0 0 2.5px ${rim})` : ""].filter(Boolean).join(" ");
   return (
-    <g transform={t} fill={fill} style={{ color: fill }}>
-      {rim && <g transform="translate(-2 -1)" fill={rim} style={{ color: rim }} opacity=".7">{body[kind]}</g>}
+    <g transform={t} stroke="#1d1030" strokeOpacity=".55" strokeWidth=".8" strokeLinejoin="round" style={filter ? { filter } : undefined}>
       {body[kind]}
     </g>
   );

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1170 230" width="1170" height="230" role="img" aria-label="Story map: intro cinematic, three trials, ending, leaderboard.">
+<style>
+@keyframes pop{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes dash{to{stroke-dashoffset:-16}}
+.m{font-family:'Permanent Marker','Comic Sans MS',cursive;fill:#0b1a33}
+.l2{font-family:'Patrick Hand SC','Comic Sans MS',cursive;fill:#efead7;letter-spacing:.12em}
+</style>
+<rect width="1170" height="230" rx="24" fill="#2a1a6e"/>
+<line x1="160" y1="100" x2="250" y2="100" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 10" style="animation:dash 1s linear infinite"/><line x1="350" y1="100" x2="440" y2="100" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 10" style="animation:dash 1s linear infinite"/><line x1="540" y1="100" x2="630" y2="100" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 10" style="animation:dash 1s linear infinite"/><line x1="730" y1="100" x2="820" y2="100" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 10" style="animation:dash 1s linear infinite"/><line x1="920" y1="100" x2="1010" y2="100" stroke="#efead7" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 10" style="animation:dash 1s linear infinite"/><g style="animation:pop .7s ease-out 0.0s both"><circle cx="110" cy="100" r="46" fill="#f6b5c8" stroke="#efead7" stroke-width="3"/>
+<text x="110" y="108" text-anchor="middle" class="m" font-size="26">I</text>
+<text x="110" y="182" text-anchor="middle" class="l2" font-size="15">INTRO</text></g><g style="animation:pop .7s ease-out 0.45s both"><circle cx="300" cy="100" r="46" fill="#7cc35a" stroke="#efead7" stroke-width="3"/>
+<text x="300" y="108" text-anchor="middle" class="m" font-size="26">1</text>
+<text x="300" y="182" text-anchor="middle" class="l2" font-size="15">FOREST OF CLUES</text></g><g style="animation:pop .7s ease-out 0.9s both"><circle cx="490" cy="100" r="46" fill="#9b5bd4" stroke="#efead7" stroke-width="3"/>
+<text x="490" y="108" text-anchor="middle" class="m" font-size="26">2</text>
+<text x="490" y="182" text-anchor="middle" class="l2" font-size="15">BRIDGE OF INSIGHT</text></g><g style="animation:pop .7s ease-out 1.35s both"><circle cx="680" cy="100" r="46" fill="#f2795a" stroke="#efead7" stroke-width="3"/>
+<text x="680" y="108" text-anchor="middle" class="m" font-size="26">3</text>
+<text x="680" y="182" text-anchor="middle" class="l2" font-size="15">FINAL CHALLENGE</text></g><g style="animation:pop .7s ease-out 1.8s both"><circle cx="870" cy="100" r="46" fill="#ffb98a" stroke="#efead7" stroke-width="3"/>
+<text x="870" y="108" text-anchor="middle" class="m" font-size="26">IV</text>
+<text x="870" y="182" text-anchor="middle" class="l2" font-size="15">ENDING</text></g><g style="animation:pop .7s ease-out 2.25s both"><circle cx="1060" cy="100" r="46" fill="#e8f20a" stroke="#efead7" stroke-width="3"/>
+<text x="1060" y="108" text-anchor="middle" class="m" font-size="26">★</text>
+<text x="1060" y="182" text-anchor="middle" class="l2" font-size="15">LEADERBOARD</text></g>
+</svg>

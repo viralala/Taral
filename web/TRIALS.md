@@ -1,10 +1,12 @@
-# Adding a trial (hi Tana!)
+# Adding a trial
 
 A **trial** is one mini-game in the story. The player goes:
 cinematic → Trial 1 → clue → Trial 2 → clue → Trial 3 → ending.
 
-Trial 1 is Viral's. **Trials 2 and 3 are yours.** Right now they play placeholder
-CAPTCHA rounds so the story works end to end. Swap them whenever you are ready.
+Trial 1 is Viral's. Trials 2 and 3 are Tana's. All three currently run on the shared
+`LevelGame` engine (riddles and ciphers for Trial 2, locks and a final key for Trial 3),
+so the story works end to end. Any trial can be swapped for a custom game without
+touching the rest of the app.
 
 ## The swap: 3 steps
 

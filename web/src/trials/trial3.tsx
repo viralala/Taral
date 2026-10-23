@@ -2,8 +2,9 @@
 /* ============================================================================
  * TRIAL 3 · The Final Challenge
  *
- * TANA: replace the default export with your game.
- *       Call props.onComplete({...}) when the player clears it.
+ * Ships with the shared CAPTCHA engine (memory lock, clue lock, key turn). To use a
+ * custom game instead, replace the default export and call
+ * props.onComplete({...}) when the player clears it.
  *
  *   - Shape of the result: see TrialResult in ./types.ts (and TRIALS.md).
  *   - Theme pieces ready to use: import from "./kit".

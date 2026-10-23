@@ -82,8 +82,23 @@ A running record of the prompts, tools and decisions behind the Taral project.
 
 ---
 
+## 07. Plan with Opus, build with a Sonnet squad
+
+**Tool:** Claude Code (Opus 5.5 planner → 3 parallel Sonnet 5.5 agents), Supabase MCP
+
+**Prompt:**
+> Make a storytelling game with 3 levels, one per problem statement, for Open Innovation. Frontend like 2019.makemepulse.com (parallax, 3D, interactive) in a groovy pastel flower style. Fun: rick-roll QR, light ragebait, mogging, puns, then something deep, then motivation. I own the CAPTCHA level and the frontend; my partner builds levels 2 and 3. Next.js + Supabase. Plan with Opus, implement with Sonnet, fan out agents, make it fast.
+
+**What happened:** Opus wrote the story (a burnt-out bot, CAPT. CHA, guards three gates), the design tokens, a shared cursor and smooth-scroll layer, the Supabase `runs` table with RLS, and `web/PLAN.md` with strict file ownership per agent. Three Sonnet agents then built the WebGL landing, the CAPTCHA game (6 challenge types, random 4 per run) and the fun shell (rick-roll QR, idle heckler, leaderboard, placeholder slots for levels 2 and 3) at the same time.
+
+**Takeaway:** Parallel agents only work when the plan draws hard file boundaries and fixes the shared interfaces first.
+
+---
+
 ## Open items
 
 - [x] Problem statement chosen
 - [x] Read the PDF brief and confirm the must-haves
-- [ ] First build step (CAPTCHA: at least 3 challenge types, pass/fail, restart)
+- [x] First build step: Level 1 CAPTCHA (6 challenge types, random 4 per run, pass/fail, restart)
+- [ ] Partner: drop levels 2 and 3 into `web/src/app/level/[n]/page.tsx`
+- [ ] Point the Vercel project at `web/` and add the Supabase env vars

@@ -3,8 +3,9 @@
 A **trial** is one mini-game in the story. The player goes:
 cinematic → Trial 1 → clue → Trial 2 → clue → Trial 3 → ending.
 
-Trial 1 is Viral's. **Trials 2 and 3 are yours.** Right now they play placeholder
-CAPTCHA rounds so the story works end to end. Swap them whenever you are ready.
+Trial 1 is Viral's. **Trial 2 is Tana's Cows & Bulls** (`src/trials/cows-bulls/`, wired in
+`trial2.tsx`). **Trial 3 is still a placeholder** CAPTCHA round so the story works end to end.
+Swap it whenever it is ready.
 
 ## The swap: 3 steps
 

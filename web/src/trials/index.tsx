@@ -12,6 +12,6 @@ export type { TrialComponent, TrialProps, TrialResult } from "./types";
  */
 export const TRIALS: Record<1 | 2 | 3, { name: string; Component: TrialComponent; owner: string }> = {
   1: { name: LEVELS[1].name, Component: Trial1, owner: "Viral" },
-  2: { name: LEVELS[2].name, Component: Trial2, owner: "Tana — replace me" },
+  2: { name: LEVELS[2].name, Component: Trial2, owner: "Tana" },
   3: { name: LEVELS[3].name, Component: Trial3, owner: "Tana — replace me" },
 };

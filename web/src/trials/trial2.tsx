@@ -1,18 +1,11 @@
 "use client";
 /* ============================================================================
- * TRIAL 2 · The Bridge of Insight
+ * TRIAL 2 · Cows & Bulls (Puzzle with a Twist: Wordle with no colours)
  *
- * TANA: replace the default export with your game.
- *       Call props.onComplete({...}) when the player clears it.
- *
- *   - Shape of the result: see TrialResult in ./types.ts (and TRIALS.md).
- *   - Theme pieces ready to use: import from "./kit".
- *   - A small working example to copy: ./TemplateTrial.tsx
- *   - Nothing else needs to change. The story and /level/2 pick this file up.
+ * The game lives in ./cows-bulls/ (logic.ts, words.ts, dictionary.ts,
+ * useCowsBulls.ts headless hook, CowsBullsTrial.tsx view). This file just
+ * re-exports it. No timer. onComplete fires once, from "Onward →", after a win.
  * ========================================================================== */
-import LevelGame from "@/components/game/LevelGame";
-import type { TrialProps } from "./types";
+import CowsBullsTrial from "./cows-bulls/CowsBullsTrial";
 
-export default function Trial2({ onComplete, standalone }: TrialProps) {
-  return <LevelGame level={2} onComplete={onComplete} standalone={standalone} />;
-}
+export default CowsBullsTrial;
